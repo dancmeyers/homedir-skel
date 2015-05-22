@@ -4,6 +4,10 @@ if [ -f ~/git-completion.bash ]; then
   . ~/git-completion.bash
 fi
 
+if [ -f ~/.bash_secret ]; then
+  . ~/.bash_secret
+fi
+
 #  SETUP CONSTANTS
 #  Bunch-o-predefined colors.  Makes reading code easier than escape
 #  sequences.
@@ -200,7 +204,7 @@ function prompt_command {
       PROMPT_COLOUR=$RED
     else
       END_CHAR="$"
-      if [ -f ~/.server ]; then
+      if [ -f ~/.shared ]; then
 	PROMPT_COLOUR=$CYAN
       else
 	PROMPT_COLOUR=$GREEN
