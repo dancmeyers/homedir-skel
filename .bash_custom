@@ -1,3 +1,9 @@
+# Source other files
+
+if [ -f ~/git-completion.bash ]; then
+  . ~/git-completion.bash
+fi
+
 #  SETUP CONSTANTS
 #  Bunch-o-predefined colors.  Makes reading code easier than escape
 #  sequences.
@@ -76,7 +82,7 @@ ON_ICYAN="\[\033[0;106m\]"    # Cyan
 ON_IWHITE="\[\033[0;107m\]"   # White
 
 # Find out what we're running on, for path differences etc
-OS=`uname`
+OS=$( uname )
 
 GIT_STATUS=""
 GIT_BRANCH=""
