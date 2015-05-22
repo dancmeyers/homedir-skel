@@ -97,10 +97,14 @@ function git_root {
   git rev-parse --show-toplevel 2> /dev/null
 }
 
-# return the count of all added but uncommitted or modified files in the current 
+# return the count of all added but uncommitted or modified files in the current
 # repository
 function git_staged_count {
-  git diff --name-only | wc -l | sed -e 's/^[[:space:]]*//'
+  # basic diff gives modified files, --cached gives newly added files
+  echo $((
+    $( git diff --name-only | wc -l | sed -e 's/^[[:space:]]*//' ) + 
+    $( git diff --cached --name-only | wc -l | sed -e 's/^[[:space:]]*//' )
+  ))
 }
 
 # return the count of all untracked files in the current repository
@@ -254,7 +258,6 @@ BASE_JAVA_OPTS=""
 # If we're at the beeb we need proxies
 if [ $OS == 'Darwin' ]; then
   alias mltail="tail -f ~/Library/Application\ Support/MarkLogic/Data/Logs/ErrorLog.txt"
-  export PYTHONPATH=/Users/meyerd06/git/nitro/nitro-xquery/src/main/python_lib
 
   if [ "$(networksetup -getCurrentLocation)" == "BBC On Network" ]; then
     export http_proxy="http://www-cache.reith.bbc.co.uk:80"
@@ -281,4 +284,3 @@ if [ $OS == 'Darwin' ]; then
     export JAVA_OPTS="$BASE_JAVA_OPTS"
   fi
 fi
-

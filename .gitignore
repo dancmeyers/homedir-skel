@@ -4,5 +4,6 @@
 # Exclude files we actually want here
 !.gitignore
 !.bash_custom
+!git-completion.bash
 !.screenrc
 !.vimrc
