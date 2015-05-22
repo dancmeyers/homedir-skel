@@ -15,7 +15,7 @@ The `:<git prompt>` section only appears if you are currently in a git repositor
 * `⚑<num>` - There are num entries on the local git stash stack
 
 ## .gitignore
-Ignores *all* home directory files by default. Any new files to be added to the skeleton repository must be added to here as a negation of the main '*' glob first. This is in case you want to check out the repository directly into your home directory, however the recommended setup is to checkout somewhere else, and provide symlinks from your home directory to each of the files in this repository (except .gitignore).
+Ignores *all* home directory files by default. Any new files to be added to the skeleton repository must be added to here as a negation of the main '*' glob first. This is in case you want to check out the repository directly into your home directory, however the recommended setup is to checkout somewhere else and provide symlinks from your home directory to each of the files in this repository (except .gitignore).
 
 ## .screenrc
 Screen configuration file. Among other things, sets a hard status line along the bottom of the terminal and changes the default Ctrl-a syntax for performing other screen commands to Ctrl-o, as there are a number of programs which you might want to run within screen which use Ctrl-a.
