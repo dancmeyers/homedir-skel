@@ -1,0 +1,8 @@
+# By default, no files are added to the repo
+*
+
+# Exclude files we actually want here
+!.gitignore
+!.bash_custom
+!.screenrc
+!.vimrc

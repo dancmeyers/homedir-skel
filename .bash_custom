@@ -1,0 +1,284 @@
+#  SETUP CONSTANTS
+#  Bunch-o-predefined colors.  Makes reading code easier than escape
+#  sequences.
+
+# Reset
+COL_OFF="\[\033[0m\]"       # Text Reset
+
+# Regular Colors
+BLACK="\[\033[0;30m\]"        # Black
+RED="\[\033[0;31m\]"          # Red
+GREEN="\[\033[0;32m\]"        # Green
+YELLOW="\[\033[0;33m\]"       # Yellow
+BLUE="\[\033[0;34m\]"         # Blue
+PURPLE="\[\033[0;35m\]"       # Purple
+CYAN="\[\033[0;36m\]"         # Cyan
+WHITE="\[\033[0;37m\]"        # White
+
+# Bold
+BBLACK="\[\033[1;30m\]"       # Black
+BRED="\[\033[1;31m\]"         # Red
+BGREEN="\[\033[1;32m\]"       # Green
+BYELLOW="\[\033[1;33m\]"      # Yellow
+BBLUE="\[\033[1;34m\]"        # Blue
+BPURPLE="\[\033[1;35m\]"      # Purple
+BCYAN="\[\033[1;36m\]"        # Cyan
+BWHITE="\[\033[1;37m\]"       # White
+
+# Underline
+UBLACK="\[\033[4;30m\]"       # Black
+URRED="\[\033[4;31m\]"         # Red
+UGREEN="\[\033[4;32m\]"       # Green
+UYELLOW="\[\033[4;33m\]"      # Yellow
+UBLUE="\[\033[4;34m\]"        # Blue
+UPURPLE="\[\033[4;35m\]"      # Purple
+UCYAN="\[\033[4;36m\]"        # Cyan
+UWHITE="\[\033[4;37m\]"       # White
+
+# Background
+ON_BLACK="\[\033[40m\]"       # Black
+ON_RED="\[\033[41m\]"         # Red
+ON_GREEN="\[\033[42m\]"       # Green
+ON_YELLOW="\[\033[43m\]"      # Yellow
+ON_BLUE="\[\033[44m\]"        # Blue
+ON_PURPLE="\[\033[45m\]"      # Purple
+ON_CYAN="\[\033[46m\]"        # Cyan
+ON_WHITE="\[\033[47m\]"       # White
+
+# High Intensty
+IBLACK="\[\033[0;90m\]"       # Black
+IRED="\[\033[0;91m\]"         # Red
+IGREEN="\[\033[0;92m\]"       # Green
+IYELLOW="\[\033[0;93m\]"      # Yellow
+IBLUE="\[\033[0;94m\]"        # Blue
+IPURPLE="\[\033[0;95m\]"      # Purple
+ICYAN="\[\033[0;96m\]"        # Cyan
+IWHITE="\[\033[0;97m\]"       # White
+
+# Bold High Intensty
+BIBLACK="\[\033[1;90m\]"      # Black
+BIRED="\[\033[1;91m\]"        # Red
+BIGREEN="\[\033[1;92m\]"      # Green
+BIYELLOW="\[\033[1;93m\]"     # Yellow
+BIBLUE="\[\033[1;94m\]"       # Blue
+BIPURPLE="\[\033[1;95m\]"     # Purple
+BICYAN="\[\033[1;96m\]"       # Cyan
+BIWHITE="\[\033[1;97m\]"      # White
+
+# High Intensty backgrounds
+ON_IBLACK="\[\033[0;100m\]"   # Black
+ON_IRED="\[\033[0;101m\]"     # Red
+ON_IGREEN="\[\033[0;102m\]"   # Green
+ON_IYELLOW="\[\033[0;103m\]"  # Yellow
+ON_IBLUE="\[\033[0;104m\]"    # Blue
+ON_IPURPLE="\[\033[10;95m\]"  # Purple
+ON_ICYAN="\[\033[0;106m\]"    # Cyan
+ON_IWHITE="\[\033[0;107m\]"   # White
+
+# Find out what we're running on, for path differences etc
+OS=`uname`
+
+GIT_STATUS=""
+GIT_BRANCH=""
+GIT_PROMPT=""
+
+# get the status of whether we're a git repository
+function git_status {
+  git status 2> /dev/null
+}
+
+# return the current branch name
+function git_branch_name {
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
+
+# find the root of the current git tree
+function git_root {
+  git rev-parse --show-toplevel 2> /dev/null
+}
+
+# return the count of all added but uncommitted or modified files in the current 
+# repository
+function git_staged_count {
+  git diff --name-only | wc -l | sed -e 's/^[[:space:]]*//'
+}
+
+# return the count of all untracked files in the current repository
+function git_unstaged_count {
+  git ls-files $( git_root ) --exclude-standard --others | wc -l | sed -e 's/^[[:space:]]*//'
+}
+
+# return the number of current entries on the stash list
+function git_stash_count {
+  git stash list | wc -l | sed -e 's/^[[:space:]]*//'
+}
+
+# set a basic prompt showing the current branch. Yellow for clean master, blue
+# for any other clean branch, red for any unclean branch
+function set_git_basic_prompt {
+  CLEAN_CHECK="^.*working directory clean.*$"
+  MERGE_CHECK="^.*All conflicts fixed but you are still merging.*$"
+  if [[ "$GIT_STATUS" =~ $CLEAN_CHECK && ! "$GIT_STATUS" =~ $MERGE_CHECK ]]; then
+    if [ "$GIT_BRANCH" = "master" ]; then
+      GIT_PROMPT+=$IYELLOW
+    else
+      GIT_PROMPT+=$IBLUE
+    fi
+  else
+    GIT_PROMPT+=$IRED
+  fi
+
+  GIT_PROMPT+=$GIT_BRANCH
+}
+
+# set notifications for the number of commits ahead or behind master we are,
+#or whether we've diverged
+function set_git_origin_notification {
+  GIT_AHEAD_CHECK="^.*Your branch is ahead of '.*' by ([0-9]+) commits.*$"
+  GIT_BEHIND_CHECK="^.*Your branch is behind '.*' by ([0-9]+) commits.*$"
+  GIT_DIVERGED_CHECK="^.*and have ([0-9]+) and ([0-9]+) different commits? each, respectively.*$"
+
+  if [[ "$GIT_STATUS" =~ $GIT_AHEAD_CHECK ]]; then
+    GIT_PROMPT+="|\342\206\221${BASH_REMATCH[1]}"
+  elif [[ "$GIT_STATUS" =~ $GIT_BEHIND_CHECK ]]; then
+    GIT_PROMPT+="|\342\206\223${BASH_REMATCH[1]}"
+  elif [[ "$GIT_STATUS" =~ $GIT_DIVERGED_CHECK ]]; then
+    GIT_PROMPT+="|\342\206\221${BASH_REMATCH[1]}\342\206\223${BASH_REMATCH[2]}"
+  fi
+}
+
+# set notifications for the number of staged but uncommitted and unstaged
+# changes there are
+function set_git_changes_notification {
+  GIT_STAGED_COUNT=$( git_staged_count )
+  if [ $GIT_STAGED_COUNT -gt 0 ]; then
+    GIT_PROMPT+="|\342\227\217$GIT_STAGED_COUNT"
+  fi
+
+  GIT_UNSTAGED_COUNT=$( git_unstaged_count )
+  if [ $GIT_UNSTAGED_COUNT -gt 0 ]; then
+    GIT_PROMPT+="|+$GIT_UNSTAGED_COUNT"
+  fi
+}
+
+# set notification for the number of commits on the stash currently
+function set_git_stash_notification {
+  GIT_STASH_COUNT=$( git_stash_count )
+  if [ $GIT_STASH_COUNT -gt 0 ]; then
+    GIT_PROMPT+="|\342\232\221$GIT_STASH_COUNT"
+  fi
+}
+
+# set a number of variables in the prompt based on the status of the current
+# git repository
+function set_git_prompt {
+  GIT_PROMPT=":"
+  set_git_basic_prompt
+  set_git_origin_notification
+  set_git_changes_notification
+  set_git_stash_notification
+}
+
+PROMPT_COMMAND=prompt_command
+
+function prompt_command {
+  # are we an interactive shell?
+  if [ "$PS1" ]; then
+    # Root gets a #, all other users get a $
+    if [ $UID == 0 ]; then
+      END_CHAR="#"
+      PROMPT_COLOUR=$RED
+    else
+      END_CHAR="$"
+      PROMPT_COLOUR=$GREEN
+    fi
+
+    # Linux terms really don't deal with the colouration stuff very well
+    if [ $TERM == "linux" ]; then
+      export PS1="\u@\h \w\n$END_CHAR "
+    else
+      GIT_STATUS=$( git_status )
+      if [ -n "$GIT_STATUS" ]; then
+	GIT_BRANCH=$( git_branch_name )
+	# If we have a status, but no branch, we're the initial commit
+	if [ -z "$GIT_BRANCH" ]; then
+	  GIT_BRANCH="<init>"
+	fi
+	set_git_prompt
+      else
+	# Clear the prompt when we're not in a repository
+	GIT_BRANCH=""
+	GIT_PROMPT=""
+      fi
+
+      # Set the xterm title if it's usable by the terminal
+      if [ $TERM == "xterm" -o $TERM == "xterm-color" ]; then
+        if [ -n "$GIT_BRANCH" ]; then
+          TITLE="\[\e]0;\h \w:$GIT_BRANCH\a\]"
+        else
+          TITLE="\[\e]0;\h \w\a\]"
+        fi
+      else
+        TITLE=""
+      fi
+
+      export PS1="$TITLE$PROMPT_COLOUR\u@\h $YELLOW\w$GIT_PROMPT\n$WHITE$END_CHAR "
+    fi
+  fi
+}
+
+# Aliases Go Here
+alias nslookup="nslookup -sil"
+
+if [ $OS == 'Linux' ]; then
+  alias ls="ls -ap --color"
+else
+  # Assume BSD/Unix style
+  alias ls="ls -apG"
+fi
+
+alias ll="ls -l"
+
+export EDITOR="vim"
+
+if [ -d "$HOME/.rvm" ]; then
+  PATH=$PATH:$HOME/.rvm/bin
+fi
+
+if [ -d "$HOME/bin" ]; then
+  PATH=$PATH:$HOME/bin
+fi
+
+BASE_JAVA_OPTS=""
+
+# If we're at the beeb we need proxies
+if [ $OS == 'Darwin' ]; then
+  alias mltail="tail -f ~/Library/Application\ Support/MarkLogic/Data/Logs/ErrorLog.txt"
+  export PYTHONPATH=/Users/meyerd06/git/nitro/nitro-xquery/src/main/python_lib
+
+  if [ "$(networksetup -getCurrentLocation)" == "BBC On Network" ]; then
+    export http_proxy="http://www-cache.reith.bbc.co.uk:80"
+    export https_proxy=$http_proxy
+    export HTTP_PROXY=$http_proxy
+    export HTTPS_PROXY=$http_proxy
+    export no_proxy="localhost,127.0.0.1,sandbox,sandbox.bbc.co.uk"
+    export NO_PROXY=$no_proxy
+
+    export JAVA_OPTS="$BASE_JAVA_OPTS \
+     -Dhttp.proxyHost=www-cache.reith.bbc.co.uk \
+     -Dhttp.proxyPort=80 \
+     -Dhttps.proxyHost=www-cache.reith.bbc.co.uk \
+     -Dhttps.proxyPort=80 \
+     -Dhttp.nonProxyHosts=localhost|national.core.bbc.co.uk|sandbox|sandbox.bbc.co.uk|*.sandbox.dev.bbc.co.uk"
+  else
+    unset http_proxy
+    unset https_proxy
+    unset no_proxy
+    unset HTTP_PROXY
+    unset HTTPS_PROXY
+    unset NO_PROXY
+
+    export JAVA_OPTS="$BASE_JAVA_OPTS"
+  fi
+fi
+
