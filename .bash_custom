@@ -200,7 +200,11 @@ function prompt_command {
       PROMPT_COLOUR=$RED
     else
       END_CHAR="$"
-      PROMPT_COLOUR=$GREEN
+      if [ -f ~/.server ]; then
+	PROMPT_COLOUR=$CYAN
+      else
+	PROMPT_COLOUR=$GREEN
+      fi
     fi
 
     # Linux terms really don't deal with the colouration stuff very well
