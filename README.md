@@ -2,7 +2,7 @@
 Basic configuration files for a skeleton home directory
 
 ## .bash_custom
-Custom configuration for the bash prompt. Sets up the editor and a few aliases, but primarily builds the prompt, who's syntax is `<username>@<host> <working directory>[:<git prompt>]`.
+Custom configuration for the bash prompt. Sets up the editor and a few aliases, but primarily builds the prompt, who's syntax is `<username>@<host> <working directory>[:<git prompt>]`, followed by a newline and either '$' for a normal user or '#' for UID 0.
 
 The `<username>@<host>` section displays in green on a user's personal machine. On a shared machine (identified by the presence of a '.shared' file in the user's home directory), the prompt displays in cyan instead. If the current user is UID 0, the prompt *always* displays in red.
 
