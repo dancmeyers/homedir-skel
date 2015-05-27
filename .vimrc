@@ -25,7 +25,7 @@ set backspace=indent,eol,start
 " tab settings
 set tabstop=8           " a tab is 8 columns
 set softtabstop=2       " tab in insert mode by default is 2 columns
-set shiftwidth=4        " reindenting uses 4 columns
+set shiftwidth=2        " reindenting uses 2 columns
 set noexpandtab         " expandtab = always use spaces. noexpandtab = use spaces or tabs as needed
 
 set autoindent          " always set autoindenting on
