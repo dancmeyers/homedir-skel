@@ -153,11 +153,11 @@ function set_git_origin_notification {
   divergedcheck="^.*and have ([0-9]+) and ([0-9]+) different commits? each, respectively.*$"
 
   if [[ "$gitstatus" =~ $aheadcheck ]]; then
-    GIT_PROMPT+="|\342\206\221${BASH_REMATCH[1]}"
+    gitprompt+="|\342\206\221${BASH_REMATCH[1]}"
   elif [[ "$gitstatus" =~ $behindcheck ]]; then
-    GIT_PROMPT+="|\342\206\223${BASH_REMATCH[1]}"
+    gitprompt+="|\342\206\223${BASH_REMATCH[1]}"
   elif [[ "$gitstatus" =~ $divergedcheck ]]; then
-    GIT_PROMPT+="|\342\206\221${BASH_REMATCH[1]}\342\206\223${BASH_REMATCH[2]}"
+    gitprompt+="|\342\206\221${BASH_REMATCH[1]}\342\206\223${BASH_REMATCH[2]}"
   fi
 }
 
