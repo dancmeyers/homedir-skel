@@ -53,16 +53,16 @@ set nosi                " turns off smart indent
 filetype plugin indent on
 
 " Set wrapping to 78 on C and Java files
-au BufNewFile,BufRead *.cpp,*.c,*.h,*.java set tw=78 cin si softtabstop=8 tabstop=8 shiftwidth=8 noexpandtab
+au BufNewFile,BufRead *.cpp,*.c,*.h,*.java set tw=78 cin si softtabstop=4 tabstop=4 shiftwidth=4 noexpandtab
 au BufNewFile,BufRead *.cpp,*.c,*.h,*.java call NiceFormatting(0) | redraw
 
 " Set Ruby files to do the right thing (tabs are spaces, and are 2 columns
 " wide)
-au BufNewFile,BufRead *.rb,*.html.erb set tw=78 cin si softtabstop=2 tabstop=8 shiftwidth=2 expandtab
+au BufNewFile,BufRead *.rb,*.html.erb set tw=78 cin si softtabstop=2 tabstop=2 shiftwidth=2 expandtab
 au BufNewFile,BufRead *.rb,*.html.erb call NiceFormatting(0) | redraw
 
-" Perl. Tabs are 2 columns wide, but are not spaces
-au BufNewFile,BufRead *.pl,*.pm set tw=78 cin si softtabstop=2 tabstop=2 shiftwidth=2 noexpandtab
+" Perl. Tabs are 4 columns wide, but are not spaces
+au BufNewFile,BufRead *.pl,*.pm set tw=78 cin si softtabstop=4 tabstop=4 shiftwidth=4 noexpandtab
 au BufNewFile,BufRead *.pl,*.pm call NiceFormatting(0) | redraw
 
 " Set wrapping to 78 on Tex files, but don't smart indent or autoindent
@@ -79,9 +79,8 @@ au BufNewFile,BufRead *.html call NiceFormatting(0) | redraw
 
 " Folding, which files to use and what is a marker, also set the foldlevel
 " high so nothing is folded by default.  Use zc to close and zo to open.
-au BufNewFile,BufRead *.c,*.h,*.cpp,*.java,*.cs,*.hpp,*.pl
-        \ setlocal foldmarker={,} |
-        \ setlocal foldmethod=marker
+au BufNewFile,BufRead *.c,*.h,*.cpp,*.java,*.cs,*.hpp,*.pl,*.pm
+        \ setlocal foldmethod=syntax
 :set foldlevel=255
 
 " When editing a file, always jump to the last known cursor position.

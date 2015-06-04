@@ -136,7 +136,7 @@ function set_git_basic_prompt {
     if [ "$gitbranch" = "master" ]; then
       gitprompt+=$iyellow
     else
-      gitprompt+=$iblue
+      gitprompt+=$icyan
     fi
   else
     gitprompt+=$ired
