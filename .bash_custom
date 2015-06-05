@@ -148,8 +148,8 @@ function set_git_basic_prompt {
 # set notifications for the number of commits ahead or behind master we are,
 #or whether we've diverged
 function set_git_origin_notification {
-  aheadcheck="^.*Your branch is ahead of '.*' by ([0-9]+) commits.*$"
-  behindcheck="^.*Your branch is behind '.*' by ([0-9]+) commits.*$"
+  aheadcheck="^.*Your branch is ahead of '.*' by ([0-9]+) commits?.*$"
+  behindcheck="^.*Your branch is behind '.*' by ([0-9]+) commits?.*$"
   divergedcheck="^.*and have ([0-9]+) and ([0-9]+) different commits? each, respectively.*$"
 
   if [[ "$gitstatus" =~ $aheadcheck ]]; then
