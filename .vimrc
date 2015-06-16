@@ -31,7 +31,7 @@ set noexpandtab         " expandtab = always use spaces. noexpandtab = use space
 set autoindent          " always set autoindenting on
 set formatoptions=qc    " q = allow gq formatting, 
                         " c = wrap comments automatically
-set textwidth=78
+set textwidth=0
 
 set is                  " incremental searching
 set history=50          " keep 50 lines of command line history
@@ -65,6 +65,14 @@ au BufNewFile,BufRead *.rb,*.html.erb call NiceFormatting(0) | redraw
 au BufNewFile,BufRead *.pl,*.pm set tw=78 cin si softtabstop=4 tabstop=4 shiftwidth=4 noexpandtab
 au BufNewFile,BufRead *.pl,*.pm call NiceFormatting(0) | redraw
 
+" Python
+au BufNewFile,BufRead *.py set tw=78 cin si softtabstop=4 tabstop=4 shiftwidth=4 noexpandtab
+au BufNewFile,BufRead *.py call NiceFormatting(0) | redraw
+
+" XQuery files don't wrap
+au BufNewFile,BufRead *.xqy set cin si softtabstop=2 tabstop=2 shiftwidth=2 expandtab
+au BufNewFile,BufRead *.xqy call NiceFormatting(0) | redraw
+
 " Set wrapping to 78 on Tex files, but don't smart indent or autoindent
 " and do line wrap
 au BufNewFile,BufRead *.tex set tw=78
@@ -79,9 +87,13 @@ au BufNewFile,BufRead *.html call NiceFormatting(0) | redraw
 
 " Folding, which files to use and what is a marker, also set the foldlevel
 " high so nothing is folded by default.  Use zc to close and zo to open.
-au BufNewFile,BufRead *.c,*.h,*.cpp,*.java,*.cs,*.hpp,*.pl,*.pm
+au BufNewFile,BufRead *.c,*.h,*.cpp,*.java,*.cs,*.hpp,*.pl,*.pm,*.rb
         \ setlocal foldmethod=syntax
-:set foldlevel=255
+set foldlevel=255
+
+let sh_fold_enabled=1
+let perl_fold=1
+let ruby_fold=1
 
 " When editing a file, always jump to the last known cursor position.
 " Don't do it when the position is invalid or when inside an event handler
