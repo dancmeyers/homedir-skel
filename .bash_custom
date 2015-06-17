@@ -246,6 +246,7 @@ function prompt_command {
 }
 
 # Aliases Go Here
+alias gg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 alias nslookup="nslookup -sil"
 
 if [ $opsys == 'Linux' ]; then
