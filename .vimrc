@@ -91,6 +91,8 @@ au BufNewFile,BufRead *.c,*.h,*.cpp,*.java,*.cs,*.hpp,*.pl,*.pm,*.rb
         \ setlocal foldmethod=syntax
 set foldlevel=255
 
+au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+
 let sh_fold_enabled=1
 let perl_fold=1
 let ruby_fold=1

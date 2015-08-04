@@ -256,6 +256,8 @@ else
   alias ls="ls -apG"
 fi
 
+ssh-add &>/dev/null
+
 alias ll="ls -l"
 
 export EDITOR="vim"
