@@ -196,14 +196,15 @@ function set_git_prompt {
 PROMPT_COMMAND=prompt_command
 
 function prompt_command {
+  timestamp=$(date +"%H:%M:%S")
   # are we an interactive shell?
   if [ "$PS1" ]; then
     # Root gets a #, all other users get a $
     if [ $UID == 0 ]; then
-      endchar="#"
+      endchar="$timestamp #"
       promptcolour=$red
     else
-      endchar="$"
+      endchar="$timestamp \$"
       if [ -f ~/.shared ]; then
 	promptcolour=$cyan
       else
