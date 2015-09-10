@@ -88,6 +88,16 @@ on_iwhite="\[\033[0;107m\]"   # White
 # Find out what we're running on, for path differences etc
 opsys=$( uname )
 
+previousstatus=""
+
+function get_previous_status {
+  if [ $? -eq 0 ]; then
+    previousstatus="$igreen\342\234\223 "
+  else
+    previousstatus="$ired\342\234\227-$? "
+  fi
+}
+
 gitstatus=""
 gitbranch=""
 gitprompt=""
@@ -196,6 +206,7 @@ function set_git_prompt {
 PROMPT_COMMAND=prompt_command
 
 function prompt_command {
+  get_previous_status
   timestamp=$(date +"%H:%M:%S")
   # are we an interactive shell?
   if [ "$PS1" ]; then
@@ -241,7 +252,7 @@ function prompt_command {
         title=""
       fi
 
-      export PS1="$title$promptcolour\u@\h $yellow\w$gitprompt\n$white$endchar "
+      export PS1="$title$previousstatus$promptcolour\u@\h $yellow\w$gitprompt\n$white$endchar "
     fi
   fi
 }
