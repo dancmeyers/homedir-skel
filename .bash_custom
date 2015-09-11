@@ -91,10 +91,11 @@ opsys=$( uname )
 previousstatus=""
 
 function get_previous_status {
-  if [ $? -eq 0 ]; then
+  status=$?
+  if [ $status -eq 0 ]; then
     previousstatus="$igreen\342\234\223 "
   else
-    previousstatus="$ired\342\234\227-$? "
+    previousstatus="$ired\342\234\227-$status "
   fi
 }
 
