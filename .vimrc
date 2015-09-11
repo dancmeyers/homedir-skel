@@ -85,6 +85,11 @@ au BufNewFile,BufRead *.txt call NiceFormatting(1) | redraw
 "au BufNewFile,BufRead *.html set noautoindent
 au BufNewFile,BufRead *.html call NiceFormatting(0) | redraw
 
+" Git commit logs should be formatted nicely
+" Follow the 50/72 rule
+au BufNewFile,BufRead *.git/COMMIT_EDITMSG set tw=72
+au BufNewFile,BufRead *.git/COMMIT_EDITMSG call NiceFormatting(1) | redraw
+
 " Folding, which files to use and what is a marker, also set the foldlevel
 " high so nothing is folded by default.  Use zc to close and zo to open.
 au BufNewFile,BufRead *.c,*.h,*.cpp,*.java,*.cs,*.hpp,*.pl,*.pm,*.rb
