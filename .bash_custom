@@ -288,8 +288,10 @@ BASE_JAVA_OPTS=""
 # If we're at the beeb we need proxies
 if [ $opsys == 'Darwin' ]; then
   alias mltail="tail -f ~/Library/Application\ Support/MarkLogic/Data/Logs/ErrorLog.txt"
+  locationfile=/var/tmp/location
+  location=$(/bin/cat ${locationfile} 2>/dev/null)
 
-  if [ "$(networksetup -getCurrentLocation)" == "BBC On Network" ]; then
+  if [ "$location" == "BBC On Network" -o "$location" == "BBC On VPN" ]; then
     export http_proxy="http://www-cache.reith.bbc.co.uk:80"
     export https_proxy=$http_proxy
     export HTTP_PROXY=$http_proxy
