@@ -272,6 +272,7 @@ fi
 ssh-add &>/dev/null
 
 alias ll="ls -l"
+alias reload="source ~/.bashrc"
 
 export EDITOR="vim"
 
