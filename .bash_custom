@@ -4,6 +4,10 @@ if [ -f ~/git-completion.bash ]; then
   . ~/git-completion.bash
 fi
 
+if [ -f ~/pass-completion.bash ]; then
+ . ~/pass-completion.bash
+fi
+
 if [ -f ~/.bash_secret ]; then
   . ~/.bash_secret
 fi
@@ -243,7 +247,7 @@ function prompt_command {
       fi
 
       # Set the xterm title if it's usable by the terminal
-      if [ $TERM == "xterm" -o $TERM == "xterm-color" ]; then
+      if [ $TERM == "xterm" -o $TERM == "xterm-color" -o $TERM == "xterm-256color" ]; then
         if [ -n "$gitbranch" ]; then
           title="\[\e]0;\h \w:$gitbranch\a\]"
         else
@@ -316,4 +320,14 @@ if [ $opsys == 'Darwin' ]; then
 
     export JAVA_OPTS="$BASE_JAVA_OPTS"
   fi
+
+  envfile=~/.gnupg/gpg-agent.env
+  
+  if [[ -e "$envfile" ]] && kill -0 $(grep GPG_AGENT_INFO "$envfile" | cut -d: -f 2) 2>/dev/null; then
+    eval "$(cat "$envfile")"
+  else
+    eval "$(gpg-agent --daemon --disable-scdaemon --write-env-file $envfile)"
+  fi
+
+  export GPG_AGENT_INFO
 fi
