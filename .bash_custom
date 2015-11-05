@@ -321,6 +321,12 @@ if [ $opsys == 'Darwin' ]; then
     export JAVA_OPTS="$BASE_JAVA_OPTS"
   fi
 
+  export MAVEN_OPTS="-Xms256m -Xmx512m
+  -Denv.trustStore=$HOME/certs/jssecacerts
+  -Denv.keyStore=$HOME/certs/meyerd06_dev.p12
+  -Denv.keyStoreType=PKCS12
+  -Denv.keyStorePassword=$CERT_PASSWORD"
+
   envfile=~/.gnupg/gpg-agent.env
   
   if [[ -e "$envfile" ]] && kill -0 $(grep GPG_AGENT_INFO "$envfile" | cut -d: -f 2) 2>/dev/null; then

@@ -66,7 +66,7 @@ au BufNewFile,BufRead *.pl,*.pm set tw=78 cin si softtabstop=4 tabstop=4 shiftwi
 au BufNewFile,BufRead *.pl,*.pm call NiceFormatting(0) | redraw
 
 " Python
-au BufNewFile,BufRead *.py set tw=78 cin si softtabstop=4 tabstop=4 shiftwidth=4 noexpandtab
+au BufNewFile,BufRead *.py set tw=78 cin si softtabstop=4 tabstop=4 shiftwidth=4 expandtab
 au BufNewFile,BufRead *.py call NiceFormatting(0) | redraw
 
 " XQuery files don't wrap
