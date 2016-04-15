@@ -3,6 +3,9 @@ set nocompatible
 " always have a status line, even in console
 set laststatus=2
 
+" let's have some mouse input, hey?
+set mouse=a
+
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
