@@ -4,7 +4,7 @@ set nocompatible
 set laststatus=2
 
 " let's have some mouse input, hey?
-set mouse=a
+"set mouse=a
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
