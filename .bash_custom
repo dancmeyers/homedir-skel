@@ -278,26 +278,48 @@ alias reload="source ~/.bashrc"
 
 export EDITOR="vim"
 
-if [ -d "$HOME/.rvm" ]; then
-  PATH=$PATH:$HOME/.rvm/bin
-fi
-
 if [ -d "$HOME/bin" ]; then
   PATH=$PATH:$HOME/bin
 fi
 
+if [ -d "$HOME/.rbenv" ]; then
+  eval "$(rbenv init -)"
+fi
+
+if [ -d "$HOME/.pyenv" ]; then
+  eval "$(pyenv init -)"
+fi
+
 BASE_JAVA_OPTS=""
+
+brew_override() {
+  if [ -f ~/.curlrc ]; then
+    mv ~/.curlrc ~/.curlrc.tmp
+  fi
+
+  command brew $@
+
+  if [ -f ~/.curlrc.tmp ]; then
+    mv ~/.curlrc.tmp ~/.curlrc
+  fi
+}
 
 # If we're at the beeb we need proxies
 if [ $opsys == 'Darwin' ]; then
   alias mlvm="~/git/mlvm/mlvm.sh"
   alias mltail="tail -f ~/Library/Application\ Support/MarkLogic/Data/Logs/ErrorLog.txt"
+  alias brew=brew_override
   export NITRO_ROOT="/Users/meyerd06/git/nitro/nitro-xquery/src/main/"
   locationfile=/var/tmp/location
   location=$(/bin/cat ${locationfile} 2>/dev/null)
 
-  eval "$(rbenv init -)"
-  eval "$(pyenv init -)"
+  #envfile=~/.gnupg/gpg-agent.env
+  #if [[ -e "${envfile}" ]] && kill -0 $(grep GPG_AGENT_INFO "${envfile}" | cut -d: -f 2) 2>/dev/null; then
+  #  eval "$(cat "${envfile}")"
+  #else
+  #  eval "$(gpg-agent --daemon --disable-scdaemon --write-env-file ${envfile})"
+  #fi
+  #export GPG_AGENT_INFO
 
   if [ "$location" == "BBC On Network" -o "$location" == "BBC On VPN" ]; then
     export http_proxy="http://www-cache.reith.bbc.co.uk:80"
@@ -329,14 +351,4 @@ if [ $opsys == 'Darwin' ]; then
   -Denv.keyStore=$HOME/certs/meyerd06_dev.p12
   -Denv.keyStoreType=PKCS12
   -Denv.keyStorePassword=$CERT_PASSWORD"
-
-  envfile=~/.gnupg/gpg-agent.env
-  
-  if [[ -e "$envfile" ]] && kill -0 $(grep GPG_AGENT_INFO "$envfile" | cut -d: -f 2) 2>/dev/null; then
-    eval "$(cat "$envfile")"
-  else
-    eval "$(gpg-agent --daemon --disable-scdaemon --write-env-file $envfile)"
-  fi
-
-  export GPG_AGENT_INFO
 fi
