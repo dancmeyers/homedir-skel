@@ -310,16 +310,11 @@ if [ $opsys == 'Darwin' ]; then
   alias mltail="tail -f ~/Library/Application\ Support/MarkLogic/Data/Logs/ErrorLog.txt"
   alias brew=brew_override
   export NITRO_ROOT="/Users/meyerd06/git/nitro/nitro-xquery/src/main/"
+  export PIPS_ROOT="/Users/meyerd06/svn/pips/trunk/Pips3/"
+  alias nitro="cd ${NITRO_ROOT}"
+  alias pips="cd ${PIPS_ROOT}"
   locationfile=/var/tmp/location
   location=$(/bin/cat ${locationfile} 2>/dev/null)
-
-  #envfile=~/.gnupg/gpg-agent.env
-  #if [[ -e "${envfile}" ]] && kill -0 $(grep GPG_AGENT_INFO "${envfile}" | cut -d: -f 2) 2>/dev/null; then
-  #  eval "$(cat "${envfile}")"
-  #else
-  #  eval "$(gpg-agent --daemon --disable-scdaemon --write-env-file ${envfile})"
-  #fi
-  #export GPG_AGENT_INFO
 
   if [ "$location" == "BBC On Network" -o "$location" == "BBC On VPN" ]; then
     export http_proxy="http://www-cache.reith.bbc.co.uk:80"
@@ -346,9 +341,13 @@ if [ $opsys == 'Darwin' ]; then
     export JAVA_OPTS="$BASE_JAVA_OPTS"
   fi
 
-  export MAVEN_OPTS="-Xms256m -Xmx512m
-  -Denv.trustStore=$HOME/certs/jssecacerts
-  -Denv.keyStore=$HOME/certs/meyerd06_dev.p12
-  -Denv.keyStoreType=PKCS12
-  -Denv.keyStorePassword=$CERT_PASSWORD"
+  export MAVEN_OPTS="-Xms256m -Xmx512m \
+    -Denv.trustStore=${HOME}/certs/jssecacerts \
+    -Denv.keyStore=${HOME}/certs/meyerd06_dev.p12 \
+    -Denv.keyStoreType=PKCS12 \
+    -Denv.keyStorePassword=${CERT_PASSWORD}"
+
+  export BOOT_JVM_OPTIONS="-Djavax.net.ssl.keyStore=${HOME}/certs/meyerd06_dev.p12 \
+    -Djavax.net.ssl.keyStoreType=PKCS12 \
+    -Djavax.net.ssl.keyStorePassword=${CERT_PASSWORD}"
 fi
