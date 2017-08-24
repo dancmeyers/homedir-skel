@@ -1,22 +1,21 @@
 ### Clojure ###
-pom.xml
-pom.xml.asc
 *.jar
 *.class
-/lib/
-/classes/
-/target/
-/checkouts/
+classes/
+target/
+checkouts/
 .nrepl-port
 .nrepl-history
-/coverage/
+coverage/
+# Ignore Leiningen files
+project.clj
 
 ### Git ###
 *.orig
 
 ### Intellij ###
-/.idea/
-/out/
+.idea/
+out/
 *.iml
 
 ### Python ###
