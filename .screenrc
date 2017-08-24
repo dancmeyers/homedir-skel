@@ -49,7 +49,8 @@ hardstatus string "%-Lw %43>[%n%f %t] %+Lw%<"
 # set every new windows hardstatus line to something descriptive
 #defhstatus "^En ^Et"
 
-defscrollback 10000
+defscrollback 100000
+termcapinfo xterm* ti@:te@
 
 # turn off flow control by default
 defflow off
