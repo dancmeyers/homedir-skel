@@ -145,7 +145,7 @@ function get_git_stash_count {
 # set a basic prompt showing the current branch. Yellow for clean master, blue
 # for any other clean branch, red for any unclean branch
 function set_git_basic_prompt {
-  cleancheck="^.*working directory clean.*$"
+  cleancheck="^.*working (directory|tree) clean.*$"
   mergecheck="^.*All conflicts fixed but you are still merging.*$"
   if [[ "$gitstatus" =~ $cleancheck && ! "$gitstatus" =~ $mergecheck ]]; then
     if [ "$gitbranch" = "master" ]; then
