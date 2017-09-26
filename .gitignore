@@ -1,10 +1,15 @@
 # By default, no files are added to the repo
 *
 
+# Don't ignore directories
+!*/
+
 # Exclude files we actually want here
-!.gitignore
 !.bash_custom
+!.boot/boot.properties
+!.boot/profile.boot
+!.gitignore
 !git-completion.bash
+!gitignore-default
 !.screenrc
 !.vimrc
-!gitignore-default

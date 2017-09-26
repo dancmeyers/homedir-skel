@@ -275,6 +275,7 @@ ssh-add &>/dev/null
 
 alias ll="ls -l"
 alias reload="source ~/.bashrc"
+alias boot="boot boot.lein/generate"
 
 export EDITOR="vim"
 
