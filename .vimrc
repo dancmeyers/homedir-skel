@@ -176,6 +176,11 @@ func! Aspell()
   execute ":e!"
 endfunc
 
+hi DiffAdd      cterm=none    ctermfg=Black     ctermbg=Green
+hi DiffChange   cterm=none    ctermfg=Black     ctermbg=Yellow
+hi DiffDelete   cterm=bold    ctermfg=Black     ctermbg=Red
+hi DiffText     cterm=none    ctermfg=NONE      ctermbg=Blue
+
 " Arrow keys can be used for selection in Visual mode (for console)
 vmap <Left> h
 vmap <Down> j
