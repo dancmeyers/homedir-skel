@@ -268,6 +268,8 @@ function prompt_command {
   fi
 }
 
+ssh-add &>/dev/null
+
 # Aliases Go Here
 alias nslookup="nslookup -sil"
 
@@ -277,8 +279,6 @@ else
   # Assume BSD/Unix style
   alias ls="ls -apG"
 fi
-
-ssh-add &>/dev/null
 
 alias ll="ls -l"
 alias reload="source ~/.bashrc"
@@ -300,33 +300,24 @@ fi
 
 BASE_JAVA_OPTS=""
 
-brew_override() {
-  if [ -f ~/.curlrc ]; then
-    mv ~/.curlrc ~/.curlrc.tmp
-  fi
-
-  command brew $@
-
-  if [ -f ~/.curlrc.tmp ]; then
-    mv ~/.curlrc.tmp ~/.curlrc
-  fi
-}
-
 # If we're at the beeb we need proxies
 if [ $opsys == 'Darwin' ]; then
   alias mlvm="~/git/mlvm/mlvm.sh"
   alias mltail="tail -f ~/Library/Application\ Support/MarkLogic/Data/Logs/ErrorLog.txt"
-  alias brew=brew_override
-  alias nitro="cd ${NITRO_ROOT}"
-  alias pips="cd ${PIPS_ROOT}"
  
-  export NITRO_ROOT="/Users/meyerd06/git/nitro/nitro-xquery/src/main/"
-  export PIPS_ROOT="/Users/meyerd06/svn/pips/trunk/Pips3/"
+  export PM_HOME="/Users/meyerd06/git/programme-metadata"
+  export NITRO_HOME="/Users/meyerd06/git/nitro/nitro-xquery/src/main"
+  export HOMEBREW_FORCE_BREWED_CURL="1"
+  export COSMOS_CERT="/Users/meyerd06/certs/meyerd06_dev.pem"
+  export GROOVY_HOME="/usr/local/opt/groovy/libexec"
+
+  eval "$(cosmos completion)"
+
+  PATH=/usr/local/opt/curl-openssl/bin:${PATH}
+  PATH=${PATH}:${HOME}/go/bin:${PM_HOME}/cosmos-utils/bin
 
   locationfile=/var/tmp/location
   location=$(/bin/cat ${locationfile} 2>/dev/null)
-
-  eval $(docker-machine env docker)
 
   if [ "$location" == "BBC On Network" -o "$location" == "BBC On VPN" ]; then
     export http_proxy="http://www-cache.reith.bbc.co.uk:80"
@@ -336,6 +327,12 @@ if [ $opsys == 'Darwin' ]; then
     export no_proxy="localhost,127.0.0.1,sandbox,sandbox.bbc.co.uk,pal.sandbox.dev.bbc.co.uk"
     export NO_PROXY=$no_proxy
 
+    if [ $(which npm) ]; then
+      npm config set proxy $http_proxy
+      npm config set https-proxy $http_proxy
+    fi
+
+    export JAVA_TOOL_OPTIONS="-DsocksProxyHost -DsocksProxyPort"
     export JAVA_OPTS="$BASE_JAVA_OPTS \
      -Dhttp.proxyHost=www-cache.reith.bbc.co.uk \
      -Dhttp.proxyPort=80 \
@@ -350,6 +347,11 @@ if [ $opsys == 'Darwin' ]; then
     unset HTTPS_PROXY
     unset NO_PROXY
 
+    if [ $(which npm) ]; then
+      npm config delete proxy
+      npm config delete https-proxy
+    fi
+
     export JAVA_OPTS="$BASE_JAVA_OPTS"
   fi
 
@@ -359,8 +361,15 @@ if [ $opsys == 'Darwin' ]; then
     -Denv.keyStoreType=PKCS12 \
     -Denv.keyStorePassword=${CERT_PASSWORD}"
 
-  export BOOT_JVM_OPTIONS="-Djavax.net.ssl.keyStore=${HOME}/certs/meyerd06_dev.p12 \
+  export BOOT_JVM_OPTIONS="-Xmx6g \
+    -Djavax.net.ssl.keyStore=${HOME}/certs/meyerd06_dev.p12 \
     -Djavax.net.ssl.keyStoreType=PKCS12 \
     -Djavax.net.ssl.keyStorePassword=${CERT_PASSWORD} \
     -XX:-OmitStackTraceInFastThrow"
+
+  export LEIN_JVM_OPTIONS="-Xmx6g \
+    -Djavax.net.ssl.keyStore=${HOME}/certs/meyerd06_dev.p12 \
+    -Djavax.net.ssl.keyStoreType=PKCS12 \
+    -Djavax.net.ssl.keyStorePassword=${CERT_PASSWORD}"
+
 fi

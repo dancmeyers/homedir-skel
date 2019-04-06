@@ -68,9 +68,14 @@ au BufNewFile,BufRead *.rb,*.html.erb call NiceFormatting(0) | redraw
 au BufNewFile,BufRead *.pl,*.pm set tw=78 cin si softtabstop=4 tabstop=4 shiftwidth=4 noexpandtab
 au BufNewFile,BufRead *.pl,*.pm call NiceFormatting(0) | redraw
 
+" JSON. Tabs are 2 columns, and are spaces
+au BufNewFile,BufRead *.json set tw=78 cin si softtabstop=2 tabstop=2 shiftwidth=2 expandtab
+au BufNewFile,BufRead *.json call NiceFormatting(0) | redraw
+
 " Python
 au BufNewFile,BufRead *.py set tw=78 cin si softtabstop=4 tabstop=4 shiftwidth=4 expandtab
-au BufNewFile,BufRead *.py call NiceFormatting(0) | redraw
+" This makes vim go insane and miss the first 2 characters of the second line?
+"au BufNewFile,BufRead *.py call NiceFormatting(0) | redraw
 
 " XQuery files don't wrap
 au BufNewFile,BufRead *.xqy set cin si softtabstop=2 tabstop=2 shiftwidth=2 expandtab
@@ -91,7 +96,7 @@ au BufNewFile,BufRead *.html call NiceFormatting(0) | redraw
 " Git commit logs should be formatted nicely
 " Follow the 50/72 rule
 au BufNewFile,BufRead *.git/COMMIT_EDITMSG set tw=72
-au BufNewFile,BufRead *.git/COMMIT_EDITMSG call NiceFormatting(1) | redraw
+au BufNewFile,BufRead *.git/COMMIT_EDITMSG call NiceFormatting(0) | redraw
 
 " Folding, which files to use and what is a marker, also set the foldlevel
 " high so nothing is folded by default.  Use zc to close and zo to open.
