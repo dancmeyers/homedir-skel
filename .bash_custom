@@ -94,7 +94,7 @@ bg_purple="$(tput setab 5)"
 bg_cyan="$(tput setab 6)"
 bg_white="$(tput setab 7)"
 
-if [ "$(tput cols)" -ge "16" ]; then
+if [ "$(tput colors)" -ge "16" ]; then
   # Bright
   iblack="$(tput setaf 8)"
   ired="$(tput setaf 9)"
