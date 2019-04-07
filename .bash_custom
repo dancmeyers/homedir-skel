@@ -52,78 +52,78 @@ if tput ce 2>/dev/null; then
 fi
 
 # Reset
-reset="$(tput sgr0)"       # Text Reset
+reset="\[$(tput sgr0)\]"
 
 # Regular Colors
-black="$(tput setaf 0)"
-red="$(tput setaf 1)"
-green="$(tput setaf 2)"
-yellow="$(tput setaf 3)"
-blue="$(tput setaf 4)"
-purple="$(tput setaf 5)"
-cyan="$(tput setaf 6)"
-white="$(tput setaf 7)"
+black="\[$(tput setaf 0)\]"
+red="\[$(tput setaf 1)\]"
+green="\[$(tput setaf 2)\]"
+yellow="\[$(tput setaf 3)\]"
+blue="\[$(tput setaf 4)\]"
+purple="\[$(tput setaf 5)\]"
+cyan="\[$(tput setaf 6)\]"
+white="\[$(tput setaf 7)\]"
 
 # Bold
-bblack="$(tput setaf 0)$(tput bold)"
-bred="$(tput setaf 1)$(tput bold)"
-bgreen="$(tput setaf 2)$(tput bold)"
-byellow="$(tput setaf 3)$(tput bold)"
-bblue="$(tput setaf 4)$(tput bold)"
-bpurple="$(tput setaf 5)$(tput bold)"
-bcyan="$(tput setaf 6)$(tput bold)"
-bwhite="$(tput setaf 7)$(tput bold)"
+bblack="\[$(tput setaf 0)$(tput bold)\]"
+bred="\[$(tput setaf 1)$(tput bold)\]"
+bgreen="\[$(tput setaf 2)$(tput bold)\]"
+byellow="\[$(tput setaf 3)$(tput bold)\]"
+bblue="\[$(tput setaf 4)$(tput bold)\]"
+bpurple="\[$(tput setaf 5)$(tput bold)\]"
+bcyan="\[$(tput setaf 6)$(tput bold)\]"
+bwhite="\[$(tput setaf 7)$(tput bold)\]"
 
 # Underline
-ublack="$(tput setaf 0)$(tput smul)"
-ured="$(tput setaf 1)$(tput smul)"
-ugreen="$(tput setaf 2)$(tput smul)"
-uyellow="$(tput setaf 3)$(tput smul)"
-ublue="$(tput setaf 4)$(tput smul)"
-upurple="$(tput setaf 5)$(tput smul)"
-ucyan="$(tput setaf 6)$(tput smul)"
-uwhite="$(tput setaf 7)$(tput smul)"
+ublack="\[$(tput setaf 0)$(tput smul)\]"
+ured="\[$(tput setaf 1)$(tput smul)\]"
+ugreen="\[$(tput setaf 2)$(tput smul)\]"
+uyellow="\[$(tput setaf 3)$(tput smul)\]"
+ublue="\[$(tput setaf 4)$(tput smul)\]"
+upurple="\[$(tput setaf 5)$(tput smul)\]"
+ucyan="\[$(tput setaf 6)$(tput smul)\]"
+uwhite="\[$(tput setaf 7)$(tput smul)\]"
 
 # Background
-bg_black="$(tput setab 0)"
-bg_red="$(tput setab 1)"
-bg_green="$(tput setab 2)"
-bg_yellow="$(tput setab 3)"
-bg_blue="$(tput setab 4)"
-bg_purple="$(tput setab 5)"
-bg_cyan="$(tput setab 6)"
-bg_white="$(tput setab 7)"
+bg_black="\[$(tput setab 0)\]"
+bg_red="\[$(tput setab 1)\]"
+bg_green="\[$(tput setab 2)\]"
+bg_yellow="\[$(tput setab 3)\]"
+bg_blue="\[$(tput setab 4)\]"
+bg_purple="\[$(tput setab 5)\]"
+bg_cyan="\[$(tput setab 6)\]"
+bg_white="\[$(tput setab 7)\]"
 
 if [ "$(tput colors)" -ge "16" ]; then
   # Bright
-  iblack="$(tput setaf 8)"
-  ired="$(tput setaf 9)"
-  igreen="$(tput setaf 10)"
-  iyellow="$(tput setaf 11)"
-  iblue="$(tput setaf 12)"
-  ipurple="$(tput setaf 13)"
-  icyan="$(tput setaf 14)"
-  iwhite="$(tput setaf 15)"
+  iblack="\[$(tput setaf 8)\]"
+  ired="\[$(tput setaf 9)\]"
+  igreen="\[$(tput setaf 10)\]"
+  iyellow="\[$(tput setaf 11)\]"
+  iblue="\[$(tput setaf 12)\]"
+  ipurple="\[$(tput setaf 13)\]"
+  icyan="\[$(tput setaf 14)\]"
+  iwhite="\[$(tput setaf 15)\]"
 
   # Bold Bright
-  biblack="$(tput setaf 8)$(tput bold)"
-  bired="$(tput setaf 9)$(tput bold)"
-  bigreen="$(tput setaf 10)$(tput bold)"
-  biyellow="$(tput setaf 11)$(tput bold)"
-  biblue="$(tput setaf 12)$(tput bold)"
-  bipurple="$(tput setaf 13)$(tput bold)"
-  bicyan="$(tput setaf 14)$(tput bold)"
-  biwhite="$(tput setaf 15)$(tput bold)"
+  biblack="\[$(tput setaf 8)$(tput bold)\]"
+  bired="\[$(tput setaf 9)$(tput bold)\]"
+  bigreen="\[$(tput setaf 10)$(tput bold)\]"
+  biyellow="\[$(tput setaf 11)$(tput bold)\]"
+  biblue="\[$(tput setaf 12)$(tput bold)\]"
+  bipurple="\[$(tput setaf 13)$(tput bold)\]"
+  bicyan="\[$(tput setaf 14)$(tput bold)\]"
+  biwhite="\[$(tput setaf 15)$(tput bold)\]"
 
   # Bright backgrounds
-  bg_iblack="$(tput setab 8)"
-  bg_ired="$(tput setab 9)"
-  bg_igreen="$(tput setab 10)"
-  bg_iyellow="$(tput setab 11)"
-  bg_iblue="$(tput setab 12)"
-  bg_ipurple="$(tput setab 13)"
-  bg_icyan="$(tput setab 14)"
-  bg_iwhite="$(tput setab 15)"
+  bg_iblack="\[$(tput setab 8)\]"
+  bg_ired="\[$(tput setab 9)\]"
+  bg_igreen="\[$(tput setab 10)\]"
+  bg_iyellow="\[$(tput setab 11)\]"
+  bg_iblue="\[$(tput setab 12)\]"
+  bg_ipurple="\[$(tput setab 13)\]"
+  bg_icyan="\[$(tput setab 14)\]"
+  bg_iwhite="\[$(tput setab 15)\]"
 else
   iblack=${black}
   ired=${red}
@@ -168,9 +168,9 @@ previousstatus=""
 function get_previous_status {
   status=$?
   if [ $status -eq 0 ]; then
-    previousstatus="${igreen}${tick}${reset} "
+    previousstatus="${igreen}${tick} "
   else
-    previousstatus="${ired}${cross}-${status}${reset} "
+    previousstatus="${ired}${cross}-${status} "
   fi
 }
 
