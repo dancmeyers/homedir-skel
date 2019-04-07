@@ -65,24 +65,24 @@ cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
 
 # Bold
-bblack="$(tput setaf 0) $(tput bold)"
-bred="$(tput setaf 1) $(tput bold)"
-bgreen="$(tput setaf 2) $(tput bold)"
-byellow="$(tput setaf 3) $(tput bold)"
-bblue="$(tput setaf 4) $(tput bold)"
-bpurple="$(tput setaf 5) $(tput bold)"
-bcyan="$(tput setaf 6) $(tput bold)"
-bwhite="$(tput setaf 7) $(tput bold)"
+bblack="$(tput setaf 0)$(tput bold)"
+bred="$(tput setaf 1)$(tput bold)"
+bgreen="$(tput setaf 2)$(tput bold)"
+byellow="$(tput setaf 3)$(tput bold)"
+bblue="$(tput setaf 4)$(tput bold)"
+bpurple="$(tput setaf 5)$(tput bold)"
+bcyan="$(tput setaf 6)$(tput bold)"
+bwhite="$(tput setaf 7)$(tput bold)"
 
 # Underline
-bblack="$(tput setaf 0) $(tput smul)"
-bred="$(tput setaf 1) $(tput smul)"
-bgreen="$(tput setaf 2) $(tput smul)"
-byellow="$(tput setaf 3) $(tput smul)"
-bblue="$(tput setaf 4) $(tput smul)"
-bpurple="$(tput setaf 5) $(tput smul)"
-bcyan="$(tput setaf 6) $(tput smul)"
-bwhite="$(tput setaf 7) $(tput smul)"
+ublack="$(tput setaf 0)$(tput smul)"
+ured="$(tput setaf 1)$(tput smul)"
+ugreen="$(tput setaf 2)$(tput smul)"
+uyellow="$(tput setaf 3)$(tput smul)"
+ublue="$(tput setaf 4)$(tput smul)"
+upurple="$(tput setaf 5)$(tput smul)"
+ucyan="$(tput setaf 6)$(tput smul)"
+uwhite="$(tput setaf 7)$(tput smul)"
 
 # Background
 bg_black="$(tput setab 0)"
@@ -94,35 +94,64 @@ bg_purple="$(tput setab 5)"
 bg_cyan="$(tput setab 6)"
 bg_white="$(tput setab 7)"
 
-# Bright
-iblack="$(tput setaf 8)"
-ired="$(tput setaf 9)"
-igreen="$(tput setaf 10)"
-iyellow="$(tput setaf 11)"
-iblue="$(tput setaf 12)"
-ipurple="$(tput setaf 13)"
-icyan="$(tput setaf 14)"
-iwhite="$(tput setaf 15)"
+if [ "$(tput cols)" -ge "16" ]; then
+  # Bright
+  iblack="$(tput setaf 8)"
+  ired="$(tput setaf 9)"
+  igreen="$(tput setaf 10)"
+  iyellow="$(tput setaf 11)"
+  iblue="$(tput setaf 12)"
+  ipurple="$(tput setaf 13)"
+  icyan="$(tput setaf 14)"
+  iwhite="$(tput setaf 15)"
 
-# Bold Bright
-biblack="$(tput setaf 8) $(tput bold)"
-bired="$(tput setaf 9) $(tput bold)"
-bigreen="$(tput setaf 10) $(tput bold)"
-biyellow="$(tput setaf 11) $(tput bold)"
-biblue="$(tput setaf 12) $(tput bold)"
-bipurple="$(tput setaf 13) $(tput bold)"
-bicyan="$(tput setaf 14) $(tput bold)"
-biwhite="$(tput setaf 15) $(tput bold)"
+  # Bold Bright
+  biblack="$(tput setaf 8)$(tput bold)"
+  bired="$(tput setaf 9)$(tput bold)"
+  bigreen="$(tput setaf 10)$(tput bold)"
+  biyellow="$(tput setaf 11)$(tput bold)"
+  biblue="$(tput setaf 12)$(tput bold)"
+  bipurple="$(tput setaf 13)$(tput bold)"
+  bicyan="$(tput setaf 14)$(tput bold)"
+  biwhite="$(tput setaf 15)$(tput bold)"
 
-# Bright backgrounds
-bg_iblack="$(tput setab 8)"
-bg_ired="$(tput setab 9)"
-bg_igreen="$(tput setab 10)"
-bg_iyellow="$(tput setab 11)"
-bg_iblue="$(tput setab 12)"
-bg_ipurple="$(tput setab 13)"
-bg_icyan="$(tput setab 14)"
-bg_iwhite="$(tput setab 15)"
+  # Bright backgrounds
+  bg_iblack="$(tput setab 8)"
+  bg_ired="$(tput setab 9)"
+  bg_igreen="$(tput setab 10)"
+  bg_iyellow="$(tput setab 11)"
+  bg_iblue="$(tput setab 12)"
+  bg_ipurple="$(tput setab 13)"
+  bg_icyan="$(tput setab 14)"
+  bg_iwhite="$(tput setab 15)"
+else
+  iblack=${black}
+  ired=${red}
+  igreen=${green}
+  iyellow=${yellow}
+  iblue=${blue}
+  ipurple=${purple}
+  icyan=${cyan}
+  iwhite=${white}
+
+  biblack=${bblack}
+  bired=${bred}
+  bigreen=${bgreen}
+  biyellow=${byellow}
+  biblue=${bblue}
+  bipurple=${bpurple}
+  bicyan=${bcyan}
+  biwhite=${bwhite}
+
+  bg_iblack=${bg_black}
+  bg_ired=${bg_red}
+  bg_igreen=${bg_green}
+  bg_iyellow=${bg_yellow}
+  bg_iblue=${bg_blue}
+  bg_ipurple=${bg_purple}
+  bg_icyan=${bg_cyan}
+  bg_iwhite=${bg_white}
+fi
 
 tick="\342\234\223"
 cross="\342\234\227"
@@ -139,9 +168,9 @@ previousstatus=""
 function get_previous_status {
   status=$?
   if [ $status -eq 0 ]; then
-    previousstatus="$igreen$tick "
+    previousstatus="${igreen}${tick}${reset} "
   else
-    previousstatus="$ired$cross-$status "
+    previousstatus="${ired}${cross}-${status}${reset} "
   fi
 }
 
@@ -189,17 +218,17 @@ function get_git_stash_count {
 function set_git_basic_prompt {
   cleancheck="^.*working (directory|tree) clean.*$"
   mergecheck="^.*All conflicts fixed but you are still merging.*$"
-  if [[ "$gitstatus" =~ $cleancheck && ! "$gitstatus" =~ $mergecheck ]]; then
-    if [ "$gitbranch" = "master" ]; then
-      gitprompt+=$iyellow
+  if [[ "${gitstatus}" =~ ${cleancheck} && ! "${gitstatus}" =~ ${mergecheck} ]]; then
+    if [ "${gitbranch}" = "master" ]; then
+      gitprompt+=${iyellow}
     else
-      gitprompt+=$icyan
+      gitprompt+=${icyan}
     fi
   else
-    gitprompt+=$ired
+    gitprompt+=${ired}
   fi
 
-  gitprompt+=$gitbranch
+  gitprompt+=${gitbranch}
 }
 
 # set notifications for the number of commits ahead or behind master we are,
@@ -209,12 +238,12 @@ function set_git_origin_notification {
   behindcheck="^.*Your branch is behind '.*' by ([0-9]+) commits?.*$"
   divergedcheck="^.*and have ([0-9]+) and ([0-9]+) different commits? each, respectively.*$"
 
-  if [[ "$gitstatus" =~ $aheadcheck ]]; then
-    gitprompt+="|$uparr${BASH_REMATCH[1]}"
-  elif [[ "$gitstatus" =~ $behindcheck ]]; then
-    gitprompt+="|$downarr${BASH_REMATCH[1]}"
-  elif [[ "$gitstatus" =~ $divergedcheck ]]; then
-    gitprompt+="|$uparr${BASH_REMATCH[1]}$downarr${BASH_REMATCH[2]}"
+  if [[ "${gitstatus}" =~ ${aheadcheck} ]]; then
+    gitprompt+="|${uparr}${BASH_REMATCH[1]}"
+  elif [[ "${gitstatus}" =~ ${behindcheck} ]]; then
+    gitprompt+="|${downarr}${BASH_REMATCH[1]}"
+  elif [[ "${gitstatus}" =~ ${divergedcheck} ]]; then
+    gitprompt+="|${uparr}${BASH_REMATCH[1]}${downarr}${BASH_REMATCH[2]}"
   fi
 }
 
@@ -222,21 +251,21 @@ function set_git_origin_notification {
 # changes there are
 function set_git_changes_notification {
   stagedcount=$( get_git_staged_count )
-  if [ $stagedcount -gt 0 ]; then
-    gitprompt+="|$bullet$stagedcount"
+  if [ "${stagedcount}" -gt "0" ]; then
+    gitprompt+="|${bullet}${stagedcount}"
   fi
 
   unstagedcount=$( get_git_unstaged_count )
-  if [ $unstagedcount -gt 0 ]; then
-    gitprompt+="|+$unstagedcount"
+  if [ "${unstagedcount}" -gt "0" ]; then
+    gitprompt+="|+${unstagedcount}"
   fi
 }
 
 # set notification for the number of commits on the stash currently
 function set_git_stash_notification {
   stashcount=$( get_git_stash_count )
-  if [ $stashcount -gt 0 ]; then
-    gitprompt+="|$flag$stashcount"
+  if [ "${stashcount}" -gt "0" ]; then
+    gitprompt+="|${flag}${stashcount}"
   fi
 }
 
@@ -255,29 +284,29 @@ PROMPT_COMMAND=prompt_command
 function prompt_command {
   get_previous_status
   # are we an interactive shell?
-  if [ "$PS1" ]; then
+  if [ "${PS1}" ]; then
     # Root gets a #, all other users get a $
-    if [ $UID == 0 ]; then
+    if [ "${UID}" -eq "0" ]; then
       endchar="\t #"
-      promptcolour=$red
+      promptcolour=${red}
     else
       endchar="\t \$"
       if [ -f ~/.shared ]; then
-	promptcolour=$cyan
+	promptcolour=${cyan}
       else
-	promptcolour=$green
+	promptcolour=${green}
       fi
     fi
 
     # Linux terms really don't deal with the colouration stuff very well
-    if [ $TERM == "linux" ]; then
-      export PS1="\u@\h \w\n$endchar "
+    if [ "${TERM}" == "{linux}" ]; then
+      export PS1="\u@\h \w\n${endchar} "
     else
       gitstatus=$( get_git_status )
-      if [ -n "$gitstatus" ]; then
+      if [ -n "${gitstatus}" ]; then
 	gitbranch=$( get_git_branch_name )
 	# If we have a status, but no branch, we're the initial commit
-	if [ -z "$gitbranch" ]; then
+	if [ -z "${gitbranch}" ]; then
 	  gitbranch="<init>"
 	fi
 	set_git_prompt
@@ -288,9 +317,9 @@ function prompt_command {
       fi
 
       # Set the xterm title if it's usable by the terminal
-      if [ $TERM == "xterm" -o $TERM == "xterm-color" -o $TERM == "xterm-256color" ]; then
-        if [ -n "$gitbranch" ]; then
-          title="\[\e]0;\h \w:$gitbranch\a\]"
+      if [ "${TERM}" == "xterm" -o "${TERM}" == "xterm-color" -o "${TERM}" == "xterm-256color" ]; then
+        if [ -n "${gitbranch}" ]; then
+          title="\[\e]0;\h \w:${gitbranch}\a\]"
         else
           title="\[\e]0;\h \w\a\]"
         fi
@@ -298,7 +327,7 @@ function prompt_command {
         title=""
       fi
 
-      export PS1="$title$previousstatus$promptcolour\u@\h $yellow\w$gitprompt\n$reset$endchar "
+      export PS1="${title}${previousstatus}${promptcolour}\u@\h ${yellow}\w${gitprompt}\n${reset}${endchar} "
     fi
   fi
 }
@@ -321,15 +350,15 @@ alias boot="boot boot.lein/generate"
 
 export EDITOR="vim"
 
-if [ -d "$HOME/bin" ]; then
-  PATH=$PATH:$HOME/bin
+if [ -d "${HOME}/bin" ]; then
+  PATH=${PATH}:${HOME}/bin
 fi
 
-if [ -d "$HOME/.rbenv" ]; then
+if [ -d "${HOME}/.rbenv" ]; then
   eval "$(rbenv init -)"
 fi
 
-if [ -d "$HOME/.pyenv" ]; then
+if [ -d "${HOME}/.pyenv" ]; then
   eval "$(pyenv init -)"
 fi
 
@@ -354,17 +383,17 @@ if [ $opsys == 'Darwin' ]; then
   locationfile=/var/tmp/location
   location=$(/bin/cat ${locationfile} 2>/dev/null)
 
-  if [ "$location" == "BBC On Network" -o "$location" == "BBC On VPN" ]; then
+  if [ "${location}" == "BBC On Network" -o "${location}" == "BBC On VPN" ]; then
     export http_proxy="http://www-cache.reith.bbc.co.uk:80"
-    export https_proxy=$http_proxy
-    export HTTP_PROXY=$http_proxy
-    export HTTPS_PROXY=$http_proxy
+    export https_proxy=${http_proxy}
+    export HTTP_PROXY=${http_proxy}
+    export HTTPS_PROXY=${http_proxy}
     export no_proxy="localhost,127.0.0.1,sandbox,sandbox.bbc.co.uk,pal.sandbox.dev.bbc.co.uk"
-    export NO_PROXY=$no_proxy
+    export NO_PROXY=${no_proxy}
 
     if [ $(which npm) ]; then
-      npm config set proxy $http_proxy
-      npm config set https-proxy $http_proxy
+      npm config set proxy ${http_proxy}
+      npm config set https-proxy ${http_proxy}
     fi
 
     export JAVA_TOOL_OPTIONS="-DsocksProxyHost -DsocksProxyPort"
@@ -387,7 +416,7 @@ if [ $opsys == 'Darwin' ]; then
       npm config delete https-proxy
     fi
 
-    export JAVA_OPTS="$BASE_JAVA_OPTS"
+    export JAVA_OPTS="${BASE_JAVA_OPTS}"
   fi
 
   export MAVEN_OPTS="-Xms256m -Xmx512m \
