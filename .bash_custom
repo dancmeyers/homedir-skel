@@ -163,6 +163,9 @@ flag="\342\232\221"
 # Find out what we're running on, for path differences etc
 opsys=$( uname )
 
+export UID
+export GID=$( id -g )
+
 previousstatus=""
 
 function get_previous_status {
@@ -351,7 +354,7 @@ alias boot="boot boot.lein/generate"
 export EDITOR="vim"
 
 if [ -d "${HOME}/bin" ]; then
-  PATH=${PATH}:${HOME}/bin
+  export PATH=${PATH}:${HOME}/bin
 fi
 
 if [ -d "${HOME}/.rbenv" ]; then
@@ -374,16 +377,37 @@ if [ $opsys == 'Darwin' ]; then
   export HOMEBREW_FORCE_BREWED_CURL="1"
   export COSMOS_CERT="/Users/meyerd06/certs/meyerd06_dev.pem"
   export GROOVY_HOME="/usr/local/opt/groovy/libexec"
+  export DRONE_SERVER=https://drone.datalab.rocks
+
+  export PYSPARK_PYTHON=${HOME}/.pyenv/versions/3.7.3/bin/python3
+  export SBT_HOME=/usr/local/Cellar/sbt/1.2.8/
+  export SPARK_HOME=/usr/local/Cellar/apache-spark/2.4.3/libexec
+  export SCALA_HOME=/usr/local/Cellar/scala@2.11/2.11.12/
+  export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_202.jdk/Contents/Home
+  export PATH=${PATH}:${SPARK_HOME}
 
   eval "$(cosmos completion)"
 
-  PATH=/usr/local/opt/curl-openssl/bin:${PATH}
-  PATH=${PATH}:${HOME}/go/bin:${PM_HOME}/cosmos-utils/bin
+  export PATH=/usr/local/opt/curl-openssl/bin:${PATH}
+  export PATH=${PATH}:${HOME}/go/bin:${PM_HOME}/cosmos-utils/bin
 
-  locationfile=/var/tmp/location
-  location=$(/bin/cat ${locationfile} 2>/dev/null)
+  location=$(/usr/sbin/scselect | /usr/bin/grep "^\W\*" | /usr/bin/awk -F'[()]' '{ print $2 }')
 
-  if [ "${location}" == "BBC On Network" -o "${location}" == "BBC On VPN" ]; then
+  if [ "${location}" == "BBC Off Network" ]; then
+    unset http_proxy
+    unset https_proxy
+    unset no_proxy
+    unset HTTP_PROXY
+    unset HTTPS_PROXY
+    unset NO_PROXY
+
+    if [ $(which npm) ]; then
+      npm config delete proxy
+      npm config delete https-proxy
+    fi
+
+    export JAVA_OPTS="${BASE_JAVA_OPTS}"
+  else
     export http_proxy="http://www-cache.reith.bbc.co.uk:80"
     export https_proxy=${http_proxy}
     export HTTP_PROXY=${http_proxy}
@@ -403,20 +427,6 @@ if [ $opsys == 'Darwin' ]; then
      -Dhttps.proxyHost=www-cache.reith.bbc.co.uk \
      -Dhttps.proxyPort=80 \
      -Dhttp.nonProxyHosts=localhost|national.core.bbc.co.uk|sandbox|sandbox.bbc.co.uk|*.sandbox.dev.bbc.co.uk"
-  else
-    unset http_proxy
-    unset https_proxy
-    unset no_proxy
-    unset HTTP_PROXY
-    unset HTTPS_PROXY
-    unset NO_PROXY
-
-    if [ $(which npm) ]; then
-      npm config delete proxy
-      npm config delete https-proxy
-    fi
-
-    export JAVA_OPTS="${BASE_JAVA_OPTS}"
   fi
 
   export MAVEN_OPTS="-Xms256m -Xmx512m \
