@@ -27,3 +27,5 @@ Standard vim configuration file.
 
 ## git-completion.bash
 Taken from the git source code, provides tab-completion of local and remote repository names, git subcommands and the like.
+
+test (ignore)
