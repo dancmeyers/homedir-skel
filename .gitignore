@@ -11,5 +11,6 @@
 !.gitignore
 !git-completion.bash
 !gitignore-default
+!.inputrc
 !.screenrc
 !.vimrc
