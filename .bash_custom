@@ -269,6 +269,8 @@ function set_git_stash_notification {
 # set a number of variables in the prompt based on the status of the current
 # git repository
 function set_git_prompt {
+  gitbranch=""
+  gitprompt=""
   gitstatus=$( get_git_status )
   if [ -n "${gitstatus}" ]; then
     gitbranch=$( get_git_branch_name )
@@ -281,10 +283,6 @@ function set_git_prompt {
     set_git_origin_notification
     set_git_changes_notification
     set_git_stash_notification
-  else
-    # Clear the prompt when we're not in a repository
-    gitbranch=""
-    gitprompt=""
   fi
 }
 
