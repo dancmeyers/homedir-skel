@@ -1,16 +1,10 @@
 # Source other files
 
-if [ -f ~/git-completion.bash ]; then
-  . ~/git-completion.bash
-fi
-
-if [ -f ~/pass-completion.bash ]; then
- . ~/pass-completion.bash
-fi
-
-if [ -f ~/.bash_secret ]; then
-  . ~/.bash_secret
-fi
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+[[ -r "~/git-completion.bash" ]] && . "~/git-completion.bash"
+[[ -r "~/pass-completion.bash" ]] && . "~/pass-completion.bash"
+[[ -r "~/kubectl-completion.bash" ]] && . "~/kubectl-completion.bash"
+[[ -r "~/.bash_secret" ]] && . "~/.bash_secret"
 
 #  SETUP CONSTANTS
 #  Bunch-o-predefined colours and symbols.
@@ -275,11 +269,32 @@ function set_git_stash_notification {
 # set a number of variables in the prompt based on the status of the current
 # git repository
 function set_git_prompt {
-  gitprompt=":"
-  set_git_basic_prompt
-  set_git_origin_notification
-  set_git_changes_notification
-  set_git_stash_notification
+  gitstatus=$( get_git_status )
+  if [ -n "${gitstatus}" ]; then
+    gitbranch=$( get_git_branch_name )
+    # If we have a status, but no branch, we're the initial commit
+    if [ -z "${gitbranch}" ]; then
+      gitbranch="<init>"
+    fi
+    gitprompt=":"
+    set_git_basic_prompt
+    set_git_origin_notification
+    set_git_changes_notification
+    set_git_stash_notification
+  else
+    # Clear the prompt when we're not in a repository
+    gitbranch=""
+    gitprompt=""
+  fi
+}
+
+function set_venv_prompt {
+  venvprompt=""
+  if [ -n "${VIRTUAL_ENV}" ]; then
+    venv="${VIRTUAL_ENV##*/}"
+    venv="${venv%%-*}"
+    venvprompt=" (${venv})"
+  fi
 }
 
 PROMPT_COMMAND=prompt_command
@@ -305,19 +320,8 @@ function prompt_command {
     if [ "${TERM}" == "{linux}" ]; then
       export PS1="\u@\h \w\n${endchar} "
     else
-      gitstatus=$( get_git_status )
-      if [ -n "${gitstatus}" ]; then
-	gitbranch=$( get_git_branch_name )
-	# If we have a status, but no branch, we're the initial commit
-	if [ -z "${gitbranch}" ]; then
-	  gitbranch="<init>"
-	fi
-	set_git_prompt
-      else
-	# Clear the prompt when we're not in a repository
-	gitbranch=""
-	gitprompt=""
-      fi
+      set_git_prompt
+      set_venv_prompt
 
       # Set the xterm title if it's usable by the terminal
       if [ "${TERM}" == "xterm" -o "${TERM}" == "xterm-color" -o "${TERM}" == "xterm-256color" ]; then
@@ -330,7 +334,7 @@ function prompt_command {
         title=""
       fi
 
-      export PS1="${title}${previousstatus}${promptcolour}\u@\h ${yellow}\w${gitprompt}\n${reset}${endchar} "
+      export PS1="${title}${previousstatus}${promptcolour}\u@\h ${yellow}\w${gitprompt}${reset}${venvprompt}\n${endchar} "
     fi
   fi
 }
