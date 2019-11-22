@@ -291,7 +291,7 @@ function set_venv_prompt {
   if [ -n "${VIRTUAL_ENV}" ]; then
     venv="${VIRTUAL_ENV##*/}"
     venv="${venv%%-*}"
-    venvprompt=" (${venv})"
+    venvprompt="${reset}(${venv}) "
   fi
 }
 
@@ -332,7 +332,7 @@ function prompt_command {
         title=""
       fi
 
-      export PS1="${title}${previousstatus}${promptcolour}\u@\h ${yellow}\w${gitprompt}${reset}${venvprompt}\n${endchar} "
+      export PS1="${title}${previousstatus}${venvprompt}${promptcolour}\u@\h ${yellow}\w${gitprompt}${reset}\n${endchar} "
     fi
   fi
 }
