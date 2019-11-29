@@ -290,7 +290,7 @@ function set_venv_prompt {
   venvprompt=""
   if [ -n "${VIRTUAL_ENV}" ]; then
     venv="${VIRTUAL_ENV##*/}"
-    venv="${venv%%-*}"
+    venv="${venv%-*}"
     venvprompt="${reset}(${venv}) "
   fi
 }
