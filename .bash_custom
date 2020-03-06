@@ -194,10 +194,9 @@ function get_git_root {
 # repository
 function get_git_staged_count {
   # basic diff gives modified files, --cached gives newly added files
-  echo $((
-    $( git diff --name-only | wc -l | sed -e 's/^[[:space:]]*//' ) + 
-    $( git diff --cached --name-only | wc -l | sed -e 's/^[[:space:]]*//' )
-  ))
+  changes="$( git diff --name-only )
+$( git diff --cached --name-only )"
+  echo "${changes}" | sort | uniq | wc -l | sed -e 's/^[[:space:]]*//'
 }
 
 # return the count of all untracked files in the current repository
@@ -290,7 +289,7 @@ function set_venv_prompt {
   venvprompt=""
   if [ -n "${VIRTUAL_ENV}" ]; then
     venv="${VIRTUAL_ENV##*/}"
-    venv="${venv%-*}"
+    venv="${venv%%-*}"
     venvprompt="${reset}(${venv}) "
   fi
 }
@@ -377,7 +376,7 @@ if [ $opsys == 'Darwin' ]; then
   export PM_HOME="/Users/meyerd06/git/programme-metadata"
   export NITRO_HOME="/Users/meyerd06/git/nitro/nitro-xquery/src/main"
   export HOMEBREW_FORCE_BREWED_CURL="1"
-  export COSMOS_CERT="/Users/meyerd06/certs/meyerd06_dev.pem"
+  export COSMOS_CERT="/Users/meyerd06/certs/meyerd06.pem"
   export GROOVY_HOME="/usr/local/opt/groovy/libexec"
   export DRONE_SERVER=https://drone.datalab.rocks
 
@@ -388,12 +387,12 @@ if [ $opsys == 'Darwin' ]; then
   export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_202.jdk/Contents/Home
   export PATH=${PATH}:${SPARK_HOME}
 
-  eval "$(cosmos completion)"
-
   export PATH=/usr/local/opt/curl-openssl/bin:${PATH}
   export PATH=${PATH}:${HOME}/go/bin:${PM_HOME}/cosmos-utils/bin
 
   location=$(/usr/sbin/scselect | /usr/bin/grep "^\W\*" | /usr/bin/awk -F'[()]' '{ print $2 }')
+
+  which cosmos > /dev/null && source <(cosmos completion)
 
   if [ "${location}" == "BBC Off Network" ]; then
     unset http_proxy
