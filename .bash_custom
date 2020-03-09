@@ -196,7 +196,7 @@ function get_git_staged_count {
   # basic diff gives modified files, --cached gives newly added files
   changes="$( git diff --name-only )
 $( git diff --cached --name-only )"
-  echo "${changes}" | sort | uniq | wc -l | sed -e 's/^[[:space:]]*//'
+  echo "${changes}" | sed '/^$/d' | sort | uniq | wc -l | sed -e 's/^[[:space:]]*//'
 }
 
 # return the count of all untracked files in the current repository
