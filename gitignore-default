@@ -103,5 +103,8 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# Terraform
+.terraform/
+
 # Naughty naughty
 datalab-owner.json

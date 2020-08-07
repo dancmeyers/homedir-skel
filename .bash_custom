@@ -289,7 +289,8 @@ function set_venv_prompt {
   venvprompt=""
   if [ -n "${VIRTUAL_ENV}" ]; then
     venv="${VIRTUAL_ENV##*/}"
-    venv="${venv%%-*}"
+    # <venv>-<8 random chars>
+    venv="${venv::-9}"
     venvprompt="${reset}(${venv}) "
   fi
 }
@@ -336,7 +337,9 @@ function prompt_command {
   fi
 }
 
-ssh-add &>/dev/null
+if ssh-add -l | grep 'The agent has no identities.' > /dev/null; then
+  ssh-add &>/dev/null
+fi
 
 # Aliases Go Here
 alias nslookup="nslookup -sil"
@@ -353,6 +356,8 @@ alias reload="source ~/.bashrc"
 alias boot="boot boot.lein/generate"
 
 export EDITOR="vim"
+export HISTSIZE=100000
+export HISTFILESIZE=100000
 
 if [ -d "${HOME}/bin" ]; then
   export PATH=${PATH}:${HOME}/bin
@@ -370,15 +375,18 @@ BASE_JAVA_OPTS=""
 
 # If we're at the beeb we need proxies
 if [ $opsys == 'Darwin' ]; then
-  alias mlvm="~/git/mlvm/mlvm.sh"
-  alias mltail="tail -f ~/Library/Application\ Support/MarkLogic/Data/Logs/ErrorLog.txt"
+
+  #alias mlvm="~/git/mlvm/mlvm.sh"
+  #alias mltail="tail -f ~/Library/Application\ Support/MarkLogic/Data/Logs/ErrorLog.txt"
  
-  export PM_HOME="/Users/meyerd06/git/programme-metadata"
-  export NITRO_HOME="/Users/meyerd06/git/nitro/nitro-xquery/src/main"
+  #export PM_HOME="/Users/meyerd06/git/programme-metadata"
+  #export NITRO_HOME="/Users/meyerd06/git/nitro/nitro-xquery/src/main"
   export HOMEBREW_FORCE_BREWED_CURL="1"
   export COSMOS_CERT="/Users/meyerd06/certs/meyerd06.pem"
-  export GROOVY_HOME="/usr/local/opt/groovy/libexec"
+  #export GROOVY_HOME="/usr/local/opt/groovy/libexec"
   export DRONE_SERVER=https://drone.datalab.rocks
+
+  export PYTHONPATH=${PYTHONPATH}:/Users/meyerd06/lib/python:/Users/meyerd06/git/nitro/nitro-xquery/src/main/python_lib 
 
   export PYSPARK_PYTHON=${HOME}/.pyenv/versions/3.7.3/bin/python3
   export SBT_HOME=/usr/local/Cellar/sbt/1.2.8/
@@ -387,48 +395,16 @@ if [ $opsys == 'Darwin' ]; then
   export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_202.jdk/Contents/Home
   export PATH=${PATH}:${SPARK_HOME}
 
-  export PATH=/usr/local/opt/curl-openssl/bin:${PATH}
+  export PATH=/usr/local/opt/curl-openssl/bin:/usr/local/opt/openssl/bin:${PATH}
+  export LDFLAGS="-L/usr/local/opt/openssl/lib"
+  export CPPFLAGS="-I/usr/local/opt/openssl/include"
+  export PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig"
+
   export PATH=${PATH}:${HOME}/go/bin:${PM_HOME}/cosmos-utils/bin
 
-  location=$(/usr/sbin/scselect | /usr/bin/grep "^\W\*" | /usr/bin/awk -F'[()]' '{ print $2 }')
+  #location=$(/usr/sbin/scselect | /usr/bin/grep "^\W\*" | /usr/bin/awk -F'[()]' '{ print $2 }')
 
-  which cosmos > /dev/null && source <(cosmos completion)
-
-  if [ "${location}" == "BBC Off Network" ]; then
-    unset http_proxy
-    unset https_proxy
-    unset no_proxy
-    unset HTTP_PROXY
-    unset HTTPS_PROXY
-    unset NO_PROXY
-
-    if [ $(which npm) ]; then
-      npm config delete proxy
-      npm config delete https-proxy
-    fi
-
-    export JAVA_OPTS="${BASE_JAVA_OPTS}"
-  else
-    export http_proxy="http://www-cache.reith.bbc.co.uk:80"
-    export https_proxy=${http_proxy}
-    export HTTP_PROXY=${http_proxy}
-    export HTTPS_PROXY=${http_proxy}
-    export no_proxy="localhost,127.0.0.1,sandbox,sandbox.bbc.co.uk,pal.sandbox.dev.bbc.co.uk"
-    export NO_PROXY=${no_proxy}
-
-    if [ $(which npm) ]; then
-      npm config set proxy ${http_proxy}
-      npm config set https-proxy ${http_proxy}
-    fi
-
-    export JAVA_TOOL_OPTIONS="-DsocksProxyHost -DsocksProxyPort"
-    export JAVA_OPTS="$BASE_JAVA_OPTS \
-     -Dhttp.proxyHost=www-cache.reith.bbc.co.uk \
-     -Dhttp.proxyPort=80 \
-     -Dhttps.proxyHost=www-cache.reith.bbc.co.uk \
-     -Dhttps.proxyPort=80 \
-     -Dhttp.nonProxyHosts=localhost|national.core.bbc.co.uk|sandbox|sandbox.bbc.co.uk|*.sandbox.dev.bbc.co.uk"
-  fi
+  export JAVA_OPTS="${BASE_JAVA_OPTS}"
 
   export MAVEN_OPTS="-Xms256m -Xmx512m \
     -Denv.trustStore=${HOME}/certs/jssecacerts \
@@ -447,4 +423,7 @@ if [ $opsys == 'Darwin' ]; then
   #  -Djavax.net.ssl.keyStoreType=PKCS12 \
   #  -Djavax.net.ssl.keyStorePassword=${CERT_PASSWORD}"
 
+  # The amount of time this takes sometimes is just not reasonable, especially as I barely ever use it
+  #which cosmos > /dev/null && source <(cosmos completion)
 fi
+
