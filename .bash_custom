@@ -4,6 +4,7 @@
 [[ -r "~/git-completion.bash" ]] && source "~/git-completion.bash"
 [[ -r "~/pass-completion.bash" ]] && source "~/pass-completion.bash"
 which kubectl >/dev/null && source <(kubectl completion bash)
+which poetry >/dev/null && source <(poetry completions bash)
 [[ -r "~/.bash_secret" ]] && source "~/.bash_secret"
 
 #  SETUP CONSTANTS
@@ -215,7 +216,7 @@ function set_git_basic_prompt {
   cleancheck="^.*working (directory|tree) clean.*$"
   mergecheck="^.*All conflicts fixed but you are still merging.*$"
   if [[ "${gitstatus}" =~ ${cleancheck} && ! "${gitstatus}" =~ ${mergecheck} ]]; then
-    if [ "${gitbranch}" = "master" ]; then
+    if [ "${gitbranch}" == "master" -o "${gitbranch}" == "main" ]; then
       gitprompt+=${iyellow}
     else
       gitprompt+=${icyan}
@@ -289,8 +290,14 @@ function set_venv_prompt {
   venvprompt=""
   if [ -n "${VIRTUAL_ENV}" ]; then
     venv="${VIRTUAL_ENV##*/}"
-    # <venv>-<8 random chars>
-    venv="${venv::-9}"
+    # Check for poetry vs pipenv
+    if [[ "${VIRTUAL_ENV}" =~ ".local/share/virtualenvs/" ]]; then
+      # <venv>-<8 random chars>
+      venv="${venv::-9}"
+    elif [[ "${VIRTUAL_ENV}" =~ "pypoetry/virtualenvs/" ]]; then
+      # <venv>-<8 random chars>-py<x.y version>
+      venv="${venv::-15}"
+    fi
     venvprompt="${reset}(${venv}) "
   fi
 }
@@ -382,6 +389,8 @@ if [ $opsys == 'Darwin' ]; then
   #export PM_HOME="/Users/meyerd06/git/programme-metadata"
   #export NITRO_HOME="/Users/meyerd06/git/nitro/nitro-xquery/src/main"
   export HOMEBREW_FORCE_BREWED_CURL="1"
+  export DEV_CERT="/Users/meyerd06/certs/meyerd06.chain.crt"
+  export DEV_KEY="/Users/meyerd06/certs/meyerd06.key"
   export COSMOS_CERT="/Users/meyerd06/certs/meyerd06.pem"
   #export GROOVY_HOME="/usr/local/opt/groovy/libexec"
   export DRONE_SERVER=https://drone.datalab.rocks
