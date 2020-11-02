@@ -4,7 +4,7 @@
 [[ -r "~/git-completion.bash" ]] && source "~/git-completion.bash"
 [[ -r "~/pass-completion.bash" ]] && source "~/pass-completion.bash"
 which kubectl >/dev/null && source <(kubectl completion bash)
-which poetry >/dev/null && source <(poetry completions bash)
+#which poetry >/dev/null && source <(poetry completions bash)
 [[ -r "~/.bash_secret" ]] && source "~/.bash_secret"
 
 #  SETUP CONSTANTS
@@ -395,13 +395,16 @@ if [ $opsys == 'Darwin' ]; then
   #export GROOVY_HOME="/usr/local/opt/groovy/libexec"
   export DRONE_SERVER=https://drone.datalab.rocks
 
+  # Fix bug with gcloud/kubectl and Python 3.9...
+  export CLOUDSDK_PYTHON=$(brew --prefix python@3.8)/bin/python3
+
   export PYTHONPATH=${PYTHONPATH}:/Users/meyerd06/lib/python:/Users/meyerd06/git/nitro/nitro-xquery/src/main/python_lib 
 
   export PYSPARK_PYTHON=${HOME}/.pyenv/versions/3.7.3/bin/python3
   export SBT_HOME=/usr/local/Cellar/sbt/1.2.8/
   export SPARK_HOME=/usr/local/Cellar/apache-spark/2.4.3/libexec
   export SCALA_HOME=/usr/local/Cellar/scala@2.11/2.11.12/
-  export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_202.jdk/Contents/Home
+  export JAVA_HOME=${HOME}/Library/Java/JavaVirtualMachines/adopt-openjdk-11.0.8/Contents/Home
   export PATH=${PATH}:${SPARK_HOME}
 
   export PATH=/usr/local/opt/curl-openssl/bin:/usr/local/opt/openssl/bin:${PATH}

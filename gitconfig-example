@@ -1,0 +1,40 @@
+[core]
+        excludesfile = /Users/meyerd06/git/homedir_skel/gitignore-default
+[user]
+	name = Dan Meyers
+	email = dan.meyers@bbc.co.uk
+	signingkey = 05A20464921EF1F031D860606A9F5EC6EF6A1B68
+[push]
+	default = current
+[difftool "p4merge"]
+	cmd = /Applications/p4merge.app/Contents/Resources/launchp4merge "$LOCAL" "$REMOTE"
+[difftool]
+        prompt = false
+[diff]
+	tool = p4merge
+[mergetool "p4merge"]
+	cmd = /Applications/p4merge.app/Contents/Resources/launchp4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+	trustExitCode = true
+[mergetool]
+	keepBackup = false
+	keepTemporaries = false
+[merge]
+	tool = p4merge
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
+[alias]
+	log-pretty = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+	log-notes = log --show-notes=*
+	push-notes = push origin refs/notes/*
+[pull]
+	rebase = true
+[commit]
+	gpgsign = true
+	template = ~/.gitmessage
+[remote "origin"]
+	tagOpt = --tags
+	prune = true
+[init]
+	defaultBranch = main
