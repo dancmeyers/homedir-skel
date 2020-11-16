@@ -9,8 +9,12 @@
 !.boot/boot.properties
 !.boot/profile.boot
 !.gitignore
-!git-completion.bash
-!gitignore-default
+!.gnupg/gpg.conf
+!.gnupg/gpg-agent.conf
 !.inputrc
 !.screenrc
+!.tmux.conf
 !.vimrc
+!git-completion.bash
+!gitconfig-osx-example
+!gitignore-default
