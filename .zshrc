@@ -1,8 +1,9 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+[[ -d "${HOME}/bin" ]] && export PATH=${HOME}/bin:${PATH}
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/meyersd/.oh-my-zsh"
+export ZSH="${HOME}/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -70,11 +71,31 @@ ZSH_THEME="agnoster"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+    git
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+)
 
-source $ZSH/oh-my-zsh.sh
+source ${ZSH}/oh-my-zsh.sh
 
 # User configuration
+
+# If there is an env var secrets file, and we have read access, source it
+[[ -r "~/.env_secrets" ]] && source "~/.env_secrets"
+
+# Set various 'version' shims for *env
+which pyenv > /dev/null && eval "$(pyenv init -)"
+which rbenv > /dev/null && eval "$(rbenv init -)"
+
+# See https://formulae.brew.sh/cask/google-cloud-sdk#default, adds gcloud to path ana enables shell completion
+if [[ -d "$(brew --prefix)/Caskroom/google-cloud-sdk" ]]; then
+    source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+    source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+fi
+
+# Find out what we're running on, for command/path differences
+opsys=$( uname )
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -87,6 +108,10 @@ source $ZSH/oh-my-zsh.sh
 # else
 #   export EDITOR='mvim'
 # fi
+export EDITOR="vim"
+
+export HISTSIZE=100000
+export SAVEHIST=100000
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -99,3 +124,12 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+if [[ "${opsys}" == "Linux" ]]; then
+  alias ls="ls -ap --color"
+else
+  # Assume BSD/Unix style
+  alias ls="ls -apG"
+fi
+
+alias ll="ls -l"
+alias reload="source ${HOME}/.zshrc"

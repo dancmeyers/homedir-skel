@@ -228,7 +228,7 @@ function set_git_basic_prompt {
   gitprompt+=${gitbranch}
 }
 
-# set notifications for the number of commits ahead or behind master we are,
+# set notifications for the number of commits ahead or behind master we are,
 #or whether we've diverged
 function set_git_origin_notification {
   aheadcheck="^.*Your branch is ahead of '.*' by ([0-9]+) commits?.*$"
@@ -351,7 +351,7 @@ fi
 # Aliases Go Here
 alias nslookup="nslookup -sil"
 
-if [ $opsys == 'Linux' ]; then
+if [[ "${opsys}" == "Linux" ]; then
   alias ls="ls -ap --color"
 else
   # Assume BSD/Unix style
