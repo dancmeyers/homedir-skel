@@ -1,16 +1,16 @@
 # Dan's .screenrc file
 #
 
-# change escape from C-a to C-o (Some programs use C-a for stuff)
-escape "^oo"
+# change escape from C-a to C-b like tmux (Some programs use C-a for stuff)
+escape "^bb"
 
 # by default, monitor all windows for activity
 defmonitor on
 activity "Activity in window %n (%t)"
 bell_msg "Bell in window %n (%t)"
 
-# by default, be a login shell
-deflogin on
+# by default, be a login shell. This option no longer exists...
+#deflogin on
 
 # no annoying audible bell, please
 vbell on
@@ -104,7 +104,7 @@ defflow off
 # keybindings
 #
 
-#remove some stupid / dangerous key bindings
+# Remove some stupid / dangerous key bindings
 bind k
 bind ^k
 bind .
@@ -113,20 +113,21 @@ bind \\
 bind ^h
 bind h
 
-# unbind some flow control stuff
+# Unbind some flow control stuff
 bind s
 bind q
 bind ^S
 bind ^Q
 
-#make them better
+# Make them better
 bind 'k' kill
 bind 'q' quit
-bind 'I' login on
-bind 'O' login off
+# These commands don't seem to exist any more
+#bind 'I' login on
+#bind 'O' login off
 bind '}' history
 
-# resizing keys
+# Resizing keys
 bind = resize =
 bind + resize +1
 bind - resize -1
