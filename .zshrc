@@ -81,6 +81,11 @@ source ${ZSH}/oh-my-zsh.sh
 
 # User configuration
 
+# Override default agnoster prompt setup, $ for newline must be outside quotes
+newline=$'\n'
+if [[ $UID -eq 0 ]]; then endchar='#'; else endchar='$'; fi
+PROMPT='%{%f%b%k%}$(build_prompt)${newline}%* ${endchar} '
+
 # If there is an env var secrets file, and we have read access, source it
 [[ -r "~/.env_secrets" ]] && source "~/.env_secrets"
 
