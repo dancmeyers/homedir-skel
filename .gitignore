@@ -6,12 +6,12 @@
 !.boot/boot.properties
 !.boot/profile.boot
 !.gitignore
+!.gitignore-default
 !.gnupg/gpg.conf
 !.gnupg/gpg-agent.conf
 !.inputrc
 !.screenrc
 !.tmux.conf
 !.vimrc
+!.zshrc
 !git-completion.bash
-!gitconfig-osx-example
-!gitignore-default
