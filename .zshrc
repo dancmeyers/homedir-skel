@@ -86,9 +86,6 @@ newline=$'\n'
 if [[ $UID -eq 0 ]]; then endchar='#'; else endchar='$'; fi
 PROMPT='%{%f%b%k%}$(build_prompt)${newline} %* ${endchar} '
 
-# If there is an env var secrets file, and we have read access, source it
-[[ -r "~/.env_secrets" ]] && source "~/.env_secrets"
-
 # Set various 'version' shims for *env
 which pyenv > /dev/null && eval "$(pyenv init -)"
 which rbenv > /dev/null && eval "$(rbenv init -)"
@@ -139,8 +136,12 @@ fi
 alias ll="ls -l"
 alias reload="source ${HOME}/.zshrc"
 
+# If there is an env var secrets file, and we have read access, source it
+[[ -r "${HOME}/.env_secrets" ]] && source "${HOME}/.env_secrets"
+
 # If there is a custom zsh config file, and we have read access, source it. Do this last so it can override stuff here
-if [[ -r "~/.zshrc_custom" ]]; then
+# For some reason ~ for ${HOME} doesn't work...
+if [[ -r "${HOME}/.zshrc_custom" ]]; then
     # Don't use [[ cond ]] && source, because when the file doesn't exist that reports final command failure
-    source "~/.zshrc_custom"
+    source "${HOME}/.zshrc_custom"
 fi
