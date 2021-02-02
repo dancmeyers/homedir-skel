@@ -138,3 +138,9 @@ fi
 
 alias ll="ls -l"
 alias reload="source ${HOME}/.zshrc"
+
+# If there is a custom zsh config file, and we have read access, source it. Do this last so it can override stuff here
+if [[ -r "~/.zshrc_custom" ]]; then
+    # Don't use [[ cond ]] && source, because when the file doesn't exist that reports final command failure
+    source "~/.zshrc_custom"
+fi
