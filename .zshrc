@@ -81,24 +81,6 @@ source ${ZSH}/oh-my-zsh.sh
 
 # User configuration
 
-# Override default agnoster prompt setup, $ for newline must be outside quotes
-newline=$'\n'
-if [[ $UID -eq 0 ]]; then endchar='#'; else endchar='$'; fi
-PROMPT='%{%f%b%k%}$(build_prompt)${newline} %* ${endchar} '
-
-# Set various 'version' shims for *env
-which pyenv > /dev/null && eval "$(pyenv init -)"
-which rbenv > /dev/null && eval "$(rbenv init -)"
-
-# See https://formulae.brew.sh/cask/google-cloud-sdk#default, adds gcloud to path ana enables shell completion
-if [[ -d "$(brew --prefix)/Caskroom/google-cloud-sdk" ]]; then
-    source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-    source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
-fi
-
-# Find out what we're running on, for command/path differences
-opsys=$( uname )
-
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -126,22 +108,3 @@ export SAVEHIST=100000
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-if [[ "${opsys}" == "Linux" ]]; then
-  alias ls="ls -ap --color"
-else
-  # Assume BSD/Unix style
-  alias ls="ls -apG"
-fi
-
-alias ll="ls -l"
-alias reload="source ${HOME}/.zshrc"
-
-# If there is an env var secrets file, and we have read access, source it
-[[ -r "${HOME}/.env_secrets" ]] && source "${HOME}/.env_secrets"
-
-# If there is a custom zsh config file, and we have read access, source it. Do this last so it can override stuff here
-# For some reason ~ for ${HOME} doesn't work...
-if [[ -r "${HOME}/.zshrc_custom" ]]; then
-    # Don't use [[ cond ]] && source, because when the file doesn't exist that reports final command failure
-    source "${HOME}/.zshrc_custom"
-fi
