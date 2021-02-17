@@ -97,8 +97,10 @@ export EDITOR="vim"
 export HISTSIZE=100000
 export SAVEHIST=100000
 
-# Override default less on nearly every command...
-export LESS="-FRX"
+# Override default agnoster prompt setup, $ for newline must be outside quotes
+newline=$'\n'
+if [[ $UID -eq 0 ]]; then endchar='#'; else endchar='$'; fi
+PROMPT='%{%f%b%k%}$(build_prompt)${newline} %* ${endchar} '
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"

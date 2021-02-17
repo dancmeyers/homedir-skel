@@ -1,7 +1,5 @@
-# Override default agnoster prompt setup, $ for newline must be outside quotes
-newline=$'\n'
-if [[ $UID -eq 0 ]]; then endchar='#'; else endchar='$'; fi
-PROMPT='%{%f%b%k%}$(build_prompt)${newline} %* ${endchar} '
+# Override default less on nearly every command...
+export LESS="-FRX"
 
 # Set various 'version' shims for *env
 which pyenv > /dev/null && eval "$(pyenv init -)"
