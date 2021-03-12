@@ -100,7 +100,7 @@ export SAVEHIST=100000
 # Override default agnoster prompt setup, $ for newline must be outside quotes
 newline=$'\n'
 if [[ $UID -eq 0 ]]; then endchar='#'; else endchar='$'; fi
-PROMPT='%{%f%b%k%}$(build_prompt)${newline} %* ${endchar} '
+PROMPT='%{%f%b%k%}$(build_prompt)${newline} %D{%H:%M:%S} ${endchar} '
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
