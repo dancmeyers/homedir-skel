@@ -45,6 +45,7 @@ set showcmd             " display incomplete commands
 set scrolloff=2         " preserve 2 lines when page-downing
 set noai                " turns off autoindent
 set nosi                " turns off smart indent
+set maxmempattern=5000  " allow editing larger K8s yaml etc without error
 
 
 " ######## AUTO COMMANDS ########
