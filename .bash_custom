@@ -344,9 +344,10 @@ function prompt_command {
   fi
 }
 
-if ssh-add -l | grep 'The agent has no identities.' > /dev/null; then
-  ssh-add &>/dev/null
-fi
+# TODO: Fix ssh-agent startup
+#if ssh-add -l | grep 'The agent has no identities.' > /dev/null; then
+#  ssh-add &>/dev/null
+#fi
 
 # Aliases Go Here
 alias nslookup="nslookup -sil"
