@@ -5,10 +5,12 @@ export LESS="-FRX"
 which pyenv > /dev/null && eval "$(pyenv init -)"
 which rbenv > /dev/null && eval "$(rbenv init -)"
 
-# See https://formulae.brew.sh/cask/google-cloud-sdk#default, adds gcloud to path and enables shell completion
-if [[ -d "$(brew --prefix)/Caskroom/google-cloud-sdk" ]]; then
-    source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-    source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+if which brew >/dev/null; then
+    # See https://formulae.brew.sh/cask/google-cloud-sdk#default, adds gcloud to path and enables shell completion
+    if [[ -d "$(brew --prefix)/Caskroom/google-cloud-sdk" ]]; then
+	source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+	source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+    fi
 fi
 
 # Find out what we're running on, for command/path differences
