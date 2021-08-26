@@ -9,7 +9,37 @@ export ZSH="${HOME}/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="agnoster"
+
+# See https://github.com/spaceship-prompt/spaceship-prompt#oh-my-zsh
+ZSH_THEME="spaceship"
+
+SPACESHIP_TIME_SHOW=true
+SPACESHIP_TIME_PREFIX=
+SPACESHIP_TIME_COLOR=white
+SPACESHIP_USER_SHOW=always
+SPACESHIP_USER_COLOR=white
+SPACESHIP_USER_COLOR_ROOT=red
+SPACESHIP_USER_SUFFIX=""
+SPACESHIP_HOST_SHOW=always
+SPACESHIP_HOST_PREFIX=@
+SPACESHIP_HOST_COLOR=white
+SPACESHIP_HOST_COLOR_SSH=white
+SPACESHIP_DIR_PREFIX=
+#SPACESHIP_DIR_COLOR=blue
+SPACESHIP_DIR_TRUNC=0
+SPACESHIP_GIT_BRANCH_COLOR=green
+SPACESHIP_GIT_PREFIX=
+SPACESHIP_PACKAGE_SHOW=false
+SPACESHIP_NODE_PREFIX=
+SPACESHIP_NODE_COLOR=red
+SPACESHIP_AWS_SHOW=false
+SPACESHIP_GCLOUD_SHOW=false
+SPACESHIP_KUBECTL_SHOW=true
+SPACESHIP_KUBECTL_PREFIX=
+SPACESHIP_KUBECTL_VERSION_SHOW=false
+SPACESHIP_KUBECONTEXT_COLOR=yellow
+SPACESHIP_EXEC_TIME_ELAPSED=5
+SPACESHIP_PROMPT_ORDER=(user host dir git hg gradle maven package node ruby elm elixir xcode swift golang php rust haskell julia docker aws gcloud venv conda pyenv dotnet ember kubectl terraform exec_time line_sep battery vi_mode jobs exit_code time char)
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -97,10 +127,12 @@ export EDITOR="vim"
 export HISTSIZE=100000
 export SAVEHIST=100000
 
-# Override default agnoster prompt setup, $ for newline must be outside quotes
-newline=$'\n'
-if [[ $UID -eq 0 ]]; then endchar='#'; else endchar='$'; fi
-PROMPT='%{%f%b%k%}$(build_prompt)${newline} %D{%H:%M:%S} ${endchar} '
+# Unbold spaceship-prompt...
+() {
+  local z=$'\0'
+  PROMPT='${${${$(spaceship_prompt)//\%\%/'$z'}//\%B}//'$z'/%%}'
+  RPROMPT='${${${$(spaceship_rprompt)//\%\%/'$z'}//\%B}//'$z'/%%}'
+}
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -113,3 +145,4 @@ PROMPT='%{%f%b%k%}$(build_prompt)${newline} %D{%H:%M:%S} ${endchar} '
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
