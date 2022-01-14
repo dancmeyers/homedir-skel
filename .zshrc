@@ -146,3 +146,4 @@ export SAVEHIST=100000
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
