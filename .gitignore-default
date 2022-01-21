@@ -8,7 +8,7 @@ checkouts/
 .nrepl-history
 coverage/
 # Ignore Leiningen files
-project.clj
+#project.clj
 
 ### Git ###
 *.orig
