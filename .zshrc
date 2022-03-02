@@ -2,6 +2,13 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 [[ -d "${HOME}/bin" ]] && export PATH=${HOME}/bin:${PATH}
 
+export OPSYS="$(uname)"
+export ARCH="$(uname -p)"
+
+if [[ "${ARCH}" == "arm" ]] && ls /opt/homebrew/bin/brew > /dev/null 2>&1; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
 
@@ -103,9 +110,15 @@ SPACESHIP_PROMPT_ORDER=(user host dir git hg gradle maven package node ruby elm 
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    git
-    zsh-autosuggestions
-    zsh-syntax-highlighting
+  aws
+  brew
+  docker
+  gcloud
+  git
+  kubectl
+  kubectx
+  zsh-autosuggestions
+  zsh-syntax-highlighting
 )
 
 source ${ZSH}/oh-my-zsh.sh
