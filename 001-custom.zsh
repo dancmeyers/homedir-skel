@@ -17,6 +17,9 @@ fi
 alias ll="ls -l"
 alias reload="source ${HOME}/.zshrc"
 
+export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
+alias yubikey-rescan="gpg-connect-agent \"scd serialno\" \"learn --force\" /bye"
+
 # If there is an env var secrets file, and we have read access, source it
 if [[ -r "${HOME}/.env_secrets" ]]; then
   # Don't use [[ -r "file" ]] && cmd, because it'll return nonzero if file doesn't exist
