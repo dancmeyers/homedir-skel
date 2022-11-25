@@ -3,6 +3,9 @@ export LESS="-FRX"
 
 # Set various 'version' shims for *env
 which pyenv > /dev/null && eval "$(pyenv init -)"
+which pyenv-virtualenv > /dev/null && eval "$(pyenv virtualenv-init -)"
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
 which rbenv > /dev/null && eval "$(rbenv init -)"
 
 which limactl > /dev/null && eval "$(limactl completion zsh)"

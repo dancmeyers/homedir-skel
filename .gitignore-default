@@ -6,6 +6,7 @@ target/
 checkouts/
 .nrepl-port
 .nrepl-history
+.portal/
 coverage/
 # Ignore Leiningen files
 #project.clj
