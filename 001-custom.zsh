@@ -22,7 +22,7 @@ fi
 alias ll="ls -l"
 alias reload="source ${HOME}/.zshrc"
 
-export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 alias yubikey-rescan="gpg-connect-agent \"scd serialno\" \"learn --force\" /bye"
 alias gpg-agent-reload="gpg-connect-agent reloadagent /bye"
 
