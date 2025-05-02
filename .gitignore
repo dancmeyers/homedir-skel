@@ -8,10 +8,14 @@
 !.gitignore
 !.gitignore-default
 !.gnupg/gpg.conf
-!.gnupg/gpg-agent.conf.x86_64
-!.gnupg/gpg-agent.conf.arm64
+!.gnupg/gpg-agent.conf
 !.inputrc
-!.screenrc
+!.ssh
+.ssh/*
+!.ssh/allowed_signers
+!.ssh/authorized_keys
+!.ssh/config
+!.ssh/id_rsa.yubi.pub
 !.tmux.conf
 !.vimrc
 !.zshrc
