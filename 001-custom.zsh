@@ -13,6 +13,7 @@ which rbenv > /dev/null && eval "$(rbenv init -)"
 which limactl > /dev/null && eval "$(limactl completion zsh)"
 
 if [[ "${OPSYS}" == "Linux" ]]; then
+  which dircolors > /dev/null && [ -f "${HOME}/.dir_colors" ] && eval $(dircolors "${HOME}/.dir_colors")
   alias ls="ls -ap --color"
 else
   # Assume BSD/Unix style
