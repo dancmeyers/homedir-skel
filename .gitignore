@@ -3,10 +3,10 @@
 
 # Exclude files we actually want here
 !.bash_custom
-!.boot/boot.properties
-!.boot/profile.boot
 !.gitignore
 !.gitignore-default
+!.gnupg
+.gnupg/*
 !.gnupg/gpg.conf
 !.gnupg/gpg-agent.conf
 !.inputrc
