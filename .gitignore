@@ -5,12 +5,12 @@
 !.bash_custom
 !.gitignore
 !.gitignore-default
-!.gnupg
+!.gnupg/
 .gnupg/*
 !.gnupg/gpg.conf
 !.gnupg/gpg-agent.conf
 !.inputrc
-!.ssh
+!.ssh/
 .ssh/*
 !.ssh/allowed_signers
 !.ssh/authorized_keys
@@ -21,3 +21,4 @@
 !.zshrc
 !001-custom.zsh
 !git-completion.bash
+bin/
