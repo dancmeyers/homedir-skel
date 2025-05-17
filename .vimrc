@@ -69,9 +69,9 @@ au BufNewFile,BufRead *.rb,*.html.erb call NiceFormatting(0) | redraw
 au BufNewFile,BufRead *.pl,*.pm set tw=78 cin si softtabstop=4 tabstop=4 shiftwidth=4 noexpandtab
 au BufNewFile,BufRead *.pl,*.pm call NiceFormatting(0) | redraw
 
-" JSON. Tabs are 2 columns, and are spaces
-au BufNewFile,BufRead *.json set tw=78 cin si softtabstop=2 tabstop=2 shiftwidth=2 expandtab
-au BufNewFile,BufRead *.json call NiceFormatting(0) | redraw
+" JSON, YAML. Tabs are 2 columns, and are spaces
+au BufNewFile,BufRead *.json,*.yaml,*.yml set tw=78 cin si softtabstop=2 tabstop=2 shiftwidth=2 expandtab
+au BufNewFile,BufRead *.json,*.yaml,*.yml call NiceFormatting(0) | redraw
 
 " Python
 au BufNewFile,BufRead *.py set tw=78 cin si softtabstop=4 tabstop=4 shiftwidth=4 expandtab
@@ -82,10 +82,10 @@ au BufNewFile,BufRead *.py set tw=78 cin si softtabstop=4 tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.xqy set cin si softtabstop=2 tabstop=2 shiftwidth=2 expandtab
 au BufNewFile,BufRead *.xqy call NiceFormatting(0) | redraw
 
-" Set wrapping to 78 on Tex files, but don't smart indent or autoindent
-" and do line wrap
-au BufNewFile,BufRead *.tex set tw=78
-au BufNewFile,BufRead *.tex call NiceFormatting(0) | redraw
+" Set wrapping to 78 on Tex and Markdown files, but don't smart indent or
+" autoindent and do line wrap
+au BufNewFile,BufRead *.tex,*.md set tw=78
+au BufNewFile,BufRead *.tex,*.md call NiceFormatting(0) | redraw
 
 au BufNewFile,BufRead *.txt set noautoindent tw=0 wm=0 nosi
 au BufNewFile,BufRead *.txt call NiceFormatting(1) | redraw
