@@ -1,4 +1,6 @@
-[[ -d "${HOME}/bin" ]] && export PATH=${HOME}/bin:${PATH}
+[[ -d "${HOME}/bin" ]] && export PATH="${HOME}/bin:${PATH}"
+[[ -d "/var/lib/rancher/rke2/bin" ]] && export PATH="${PATH}:/var/lib/rancher/rke2/bin"
+[[ -f "/etc/rancher/rke2/rke2.yaml" ]] && export KUBECONFIG="/etc/rancher/rke2/rke2.yaml"
 
 # Override default less on nearly every command...
 export LESS="-FRX"
